@@ -1,0 +1,174 @@
+<?php
+
+/*
+ * This file is part of the "Recipe Runner" project.
+ *
+ * (c) Víctor Puertas <http://github.com/yosymfony>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace RecipeRunner\Definition\RecipeMaker;
+
+use InvalidArgumentException;
+use RecipeRunner\Definition\ActionDefinition;
+use RecipeRunner\Definition\RecipeDefinition;
+use RecipeRunner\Definition\StepDefinition;
+use RecipeRunner\Module\Invocation\Method;
+use Symfony\Component\Yaml\Exception\ParseException;
+use Symfony\Component\Yaml\Yaml;
+use Yosymfony\Collection\MixedCollection;
+
+/**
+ * Makes a recipe from a YAML string.
+ */
+class YamlRecipeMaker
+{
+    /**
+     * Makes a recipe from a YAML string.
+     *
+     * @param string $content
+     *
+     * @return RecipeDefinition
+     */
+    public function makeRecipeFromString(string $content): RecipeDefinition
+    {
+        $recipe = Yaml::parse($content);
+
+        return $this->makeRecipe($recipe);
+    }
+
+    /**
+     * Makes a recipe from a .yml file
+     *
+     * @param string $filename
+     *
+     * @return RecipeDefinition
+     */
+    public function makeRecipeFromFile(string $filename): RecipeDefinition
+    {
+        $recipe = Yaml::parseFile($filename);
+
+        return $this->makeRecipe($recipe);
+    }
+
+    private function makeRecipe(array $recipeAsCollection): RecipeDefinition
+    {
+        $recipeAsCollection = new MixedCollection($recipeAsCollection);
+        $name = (string) $recipeAsCollection->getOrDefault('name', 'Recipe with no name');
+        $recipeDef = new RecipeDefinition($name, $this->readSteps($recipeAsCollection));
+
+        return $recipeDef;
+    }
+
+    private function readSteps(MixedCollection $recipe): MixedCollection
+    {
+        $steps = $this->readArray($recipe, 'steps');
+        $stepDefinitions = new MixedCollection();
+
+        foreach ($steps as $key => $step) {
+            $step = new MixedCollection($step);
+            $name = $step->getOrDefault('name', sprintf('Step: %s', $key));
+            $stepDefinition = new StepDefinition($name, $this->readActions($step));
+            
+            $stepDefinition->setWhenExpression($this->readWhenExpression($step))
+                ->setLoopExpression($this->readLoopExpression($step));
+            
+            $stepDefinitions->add($key, $stepDefinition);
+        }
+
+        return $stepDefinitions;
+    }
+
+    private function readActions(MixedCollection $step): MixedCollection
+    {
+        $actions = $this->readArray($step, 'actions');
+        $actionDefinitions = new MixedCollection();
+
+        foreach ($actions as $key => $action) {
+            $action = new MixedCollection($action);
+
+            $name = $action->getOrDefault('name', sprintf('Action: %s', $key));
+
+            $actionDefinition = new ActionDefinition($name, $this->readMethod($action));
+            $actionDefinition->setWhenExpression($this->readWhenExpression($action))
+                ->setLoopExpression($this->readLoopExpression($action))
+                ->setVariableName($this->readActionRegister($action));
+
+            $actionDefinitions->add($key, $actionDefinition);
+        }
+
+        return $actionDefinitions;
+    }
+
+    private function readWhenExpression(MixedCollection $collection): string
+    {
+        $value = $collection->getOrDefault('when', '');
+
+        if (!\is_string($value)) {
+            throw new InvalidArgumentException('Invalid schema: "when" has to be a string expression.');
+        }
+
+        return $value;
+    }
+
+    /**
+     * @return string|MixedCollection
+     */
+    private function readLoopExpression(MixedCollection $collection)
+    {
+        $value = $collection->getOrDefault('loop', '');
+
+        if (is_string($value)) {
+            return $value;
+        }
+
+        if (is_array($value)) {
+            return new MixedCollection($value);
+        }
+
+        throw new InvalidArgumentException('Invalid schema: "loop" has to be a string expression or a list of items.');
+    }
+
+    private function readActionRegister(MixedCollection $actionCollection): string
+    {
+        $value = $actionCollection->getOrDefault('register', '');
+
+        if (!\is_string($value)) {
+            throw new InvalidArgumentException('Invalid schema: "register" has to be a string value.');
+        }
+
+        return $value;
+    }
+
+    private function readMethod(MixedCollection $actionCollection): Method
+    {
+        $methodCollection = $actionCollection->except(['when', 'loop', 'register', 'name']);
+        $counter = count($methodCollection);
+
+        if ($counter == 0 || $counter > 1) {
+            throw new InvalidArgumentException('Invalid schema: an action needs one and just one invocation method.');
+        }
+
+        $methodName = $methodCollection->keys()->firstOrDefault();
+        $method = new Method($methodName);
+        
+        foreach ((array) $methodCollection->firstOrDefault() as $key => $value) {
+            $method->addParameter($key, $value);
+        }
+
+        return $method;
+    }
+
+    private function readArray(MixedCollection $collection, string $key): array
+    {
+        $result = $collection->getOrDefault($key);
+
+        if (!\is_array($result)) {
+            throw new InvalidArgumentException("Invalid schema: \"{$key}\" has to be an array value.");
+        }
+
+        return $result;
+    }
+}
