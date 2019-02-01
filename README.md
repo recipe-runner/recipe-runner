@@ -20,15 +20,21 @@ composer require recipe-runner/recipe-runner
 ## Usage
 
 ```php
+use RecipeRunner\Definition\RecipeMaker;
 use RecipeRunner\Recipe\RecipeParser;
 
 $recipeVariables = new MixedCollection();
 $recipeParser = RecipeParser::Create();
 
+$recipeMaker = new YamlRecipeMaker();
+$recipe = $recipeMaker->makeRecipeFromFile('/path-to-a-recipe.yml');
+
 $recipeParser->parse($recipe, $recipeVariables);
 ```
 
 ## Recipe example
+
+Recipes are written in YAML:
 
 ```yaml
 name: "Very simple example that creates variables"
