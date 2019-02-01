@@ -53,7 +53,7 @@ steps:
 You can run the unit tests with the following command:
 
 ```bash
-$ cd collection
+$ cd recipe-runner
 $ composer test
 ```
 
