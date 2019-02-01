@@ -3,7 +3,7 @@
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/recipe-runner/recipe-runner.svg?style=flat-square)](https://packagist.org/packages/recipe-runner/recipe-runner)
 [![Build Status](https://img.shields.io/travis/recipe-runner/recipe-runner/master.svg?style=flat-square)](https://travis-ci.org/recipe-runner/recipe-runner)
 
-Recipe Runner is a new way to automate task and extend your applications.
+Recipe Runner is a new way to automate tasks and extend your applications.
 
 ## Requires
 
