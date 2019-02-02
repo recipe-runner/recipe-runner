@@ -9,20 +9,20 @@
  * file that was distributed with this source code.
  */
 
-namespace RecipeRunner\Recipe;
+namespace RecipeRunner\RecipeRunner\Recipe;
 
-use RecipeRunner\Action\ActionParser;
-use RecipeRunner\Adapter\Expression\SymfonyExpressionLanguage;
-use RecipeRunner\Definition\RecipeDefinition;
-use RecipeRunner\Expression\ExpressionResolverInterface;
-use RecipeRunner\IO\IOAwareInterface;
-use RecipeRunner\IO\IOInterface;
-use RecipeRunner\IO\IOTrait;
-use RecipeRunner\IO\NullIO;
-use RecipeRunner\Module\BuiltIn\EssentialModule;
-use RecipeRunner\Module\ModuleMethodExecutor;
-use RecipeRunner\RecipeVariablesContainer;
-use RecipeRunner\Step\StepParser;
+use RecipeRunner\RecipeRunner\Action\ActionParser;
+use RecipeRunner\RecipeRunner\Adapter\Expression\SymfonyExpressionLanguage;
+use RecipeRunner\RecipeRunner\Definition\RecipeDefinition;
+use RecipeRunner\RecipeRunner\Expression\ExpressionResolverInterface;
+use RecipeRunner\RecipeRunner\IO\IOAwareInterface;
+use RecipeRunner\RecipeRunner\IO\IOInterface;
+use RecipeRunner\RecipeRunner\IO\IOTrait;
+use RecipeRunner\RecipeRunner\IO\NullIO;
+use RecipeRunner\RecipeRunner\Module\BuiltIn\EssentialModule;
+use RecipeRunner\RecipeRunner\Module\ModuleMethodExecutor;
+use RecipeRunner\RecipeRunner\RecipeVariablesContainer;
+use RecipeRunner\RecipeRunner\Step\StepParser;
 use Yosymfony\Collection\CollectionInterface;
 use Yosymfony\Collection\MixedCollection;
 

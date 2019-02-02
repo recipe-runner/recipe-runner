@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace RecipeRunner\Module\Invocation;
+namespace RecipeRunner\RecipeRunner\Module\Invocation;
 
 final class ExecutionResult
 {

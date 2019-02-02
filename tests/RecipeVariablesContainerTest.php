@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace RecipeRunner\Test;
+namespace RecipeRunner\RecipeRunner\Test;
 
 use PHPUnit\Framework\TestCase;
 use Yosymfony\Collection\MixedCollection;
-use RecipeRunner\RecipeVariablesContainer;
+use RecipeRunner\RecipeRunner\RecipeVariablesContainer;
 
 class RecipeVariablesContainerTest extends TestCase
 {

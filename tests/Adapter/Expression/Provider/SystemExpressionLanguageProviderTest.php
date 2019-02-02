@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace RecipeRunner\Test\Adapter\Expression\Provider;
+namespace RecipeRunner\RecipeRunner\Test\Adapter\Expression\Provider;
 
 use PHPUnit\Framework\TestCase;
-use RecipeRunner\Adapter\Expression\SymfonyExpressionLanguage;
+use RecipeRunner\RecipeRunner\Adapter\Expression\SymfonyExpressionLanguage;
 use Yosymfony\Collection\MixedCollection;
 
 class SystemExpressionLanguageProviderTest extends TestCase

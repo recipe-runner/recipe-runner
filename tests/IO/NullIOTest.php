@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace RecipeRunner\Test\IO;
+namespace RecipeRunner\RecipeRunner\Test\IO;
 
 use PHPUnit\Framework\TestCase;
-use RecipeRunner\IO\NullIO;
+use RecipeRunner\RecipeRunner\IO\NullIO;
 
 class NullIOTest extends TestCase
 {

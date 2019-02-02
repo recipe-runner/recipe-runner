@@ -9,13 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace RecipeRunner\Definition\RecipeMaker;
+namespace RecipeRunner\RecipeRunner\Definition\RecipeMaker;
 
 use InvalidArgumentException;
-use RecipeRunner\Definition\ActionDefinition;
-use RecipeRunner\Definition\RecipeDefinition;
-use RecipeRunner\Definition\StepDefinition;
-use RecipeRunner\Module\Invocation\Method;
+use RecipeRunner\RecipeRunner\Definition\ActionDefinition;
+use RecipeRunner\RecipeRunner\Definition\RecipeDefinition;
+use RecipeRunner\RecipeRunner\Definition\StepDefinition;
+use RecipeRunner\RecipeRunner\Module\Invocation\Method;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 use Yosymfony\Collection\MixedCollection;

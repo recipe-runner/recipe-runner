@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace RecipeRunner\Expression;
+namespace RecipeRunner\RecipeRunner\Expression;
 
 use Yosymfony\Collection\CollectionInterface;
 

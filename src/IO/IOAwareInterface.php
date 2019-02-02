@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace RecipeRunner\IO;
+namespace RecipeRunner\RecipeRunner\IO;
 
 /**
  * The interface should be implemented for classes that depend on a IO.

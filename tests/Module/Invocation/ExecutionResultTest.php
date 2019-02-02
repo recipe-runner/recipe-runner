@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace RecipeRunner\Test\Module\Invocation;
+namespace RecipeRunner\RecipeRunner\Test\Module\Invocation;
 
 use PHPUnit\Framework\TestCase;
-use RecipeRunner\Module\Invocation\ExecutionResult;
+use RecipeRunner\RecipeRunner\Module\Invocation\ExecutionResult;
 
 class ExecutionResultTest extends TestCase
 {

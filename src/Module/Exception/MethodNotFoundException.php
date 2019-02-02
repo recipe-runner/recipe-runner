@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace RecipeRunner\Module\Exception;
+namespace RecipeRunner\RecipeRunner\Module\Exception;
 
 use Exception;
 use RuntimeException;
-use RecipeRunner\Module\Invocation\Method;
+use RecipeRunner\RecipeRunner\Module\Invocation\Method;
 
 class MethodNotFoundException extends RuntimeException
 {

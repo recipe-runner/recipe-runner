@@ -9,12 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace RecipeRunner\Module;
+namespace RecipeRunner\RecipeRunner\Module;
 
-use RecipeRunner\Expression\ExpressionResolverInterface;
-use RecipeRunner\IO\IOAwareInterface;
-use RecipeRunner\Module\Invocation\ExecutionResult;
-use RecipeRunner\Module\Invocation\Method;
+use RecipeRunner\RecipeRunner\Expression\ExpressionResolverInterface;
+use RecipeRunner\RecipeRunner\IO\IOAwareInterface;
+use RecipeRunner\RecipeRunner\Module\Invocation\ExecutionResult;
+use RecipeRunner\RecipeRunner\Module\Invocation\Method;
 use Yosymfony\Collection\MixedCollection;
 
 /**

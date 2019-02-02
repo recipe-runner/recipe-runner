@@ -9,11 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace RecipeRunner\Test\Definition\RecipeMaker;
+namespace RecipeRunner\RecipeRunner\Test\Definition\RecipeMaker;
 
 use PHPUnit\Framework\TestCase;
-use RecipeRunner\Definition\RecipeMaker\YamlRecipeMaker;
-use RecipeRunner\Module\Invocation\Method;
+
+use RecipeRunner\RecipeRunner\Definition\RecipeMaker\YamlRecipeMaker;
+use RecipeRunner\RecipeRunner\Module\Invocation\Method;
 
 class YamlRecipeMakerTest extends TestCase
 {

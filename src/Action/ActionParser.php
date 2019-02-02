@@ -9,15 +9,15 @@
  * file that was distributed with this source code.
  */
 
-namespace RecipeRunner\Action;
+namespace RecipeRunner\RecipeRunner\Action;
 
-use RecipeRunner\Action\Exception\InvalidJsonException;
-use RecipeRunner\Definition\ActionDefinition;
-use RecipeRunner\Expression\ExpressionResolverInterface;
-use RecipeRunner\Module\Invocation\ExecutionResult;
-use RecipeRunner\Module\ModuleMethodExecutor;
-use RecipeRunner\ParserBase;
-use RecipeRunner\RecipeVariablesContainer;
+use RecipeRunner\RecipeRunner\Action\Exception\InvalidJsonException;
+use RecipeRunner\RecipeRunner\Definition\ActionDefinition;
+use RecipeRunner\RecipeRunner\Expression\ExpressionResolverInterface;
+use RecipeRunner\RecipeRunner\Module\Invocation\ExecutionResult;
+use RecipeRunner\RecipeRunner\Module\ModuleMethodExecutor;
+use RecipeRunner\RecipeRunner\ParserBase;
+use RecipeRunner\RecipeRunner\RecipeVariablesContainer;
 use Yosymfony\Collection\CollectionInterface;
 use Yosymfony\Collection\MixedCollection;
 
@@ -104,7 +104,7 @@ class ActionParser extends ParserBase
         $variables = \json_decode($json, true);
 
         if ($variables === null) {
-            $message = "Error parsing a JSON string. Action name: \"{$this->name}\".";
+            $message = "Error parsing a JSON string.";
             throw new InvalidJsonException($message, $json);
         }
 

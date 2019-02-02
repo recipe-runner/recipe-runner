@@ -21,11 +21,11 @@
         "symfony/yaml": "^4.2"
     },
     "autoload": {
-        "psr-4": { "RecipeRunner\\": "src" }
+        "psr-4": { "RecipeRunner\\RecipeRunner\\": "src" }
     },
     "autoload-dev": {
         "psr-4": {
-            "RecipeRunner\\Test\\": "tests"
+            "RecipeRunner\\RecipeRunner\\Test\\": "tests"
         }
     },
     "extra": {

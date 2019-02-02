@@ -9,13 +9,13 @@
  * file that was distributed with this source code.
  */
 
-namespace RecipeRunner\Test\Module;
+namespace RecipeRunner\RecipeRunner\Test\Module;
 
 use PHPUnit\Framework\TestCase;
 use Yosymfony\Collection\MixedCollection;
-use RecipeRunner\Module\Invocation\Method;
-use RecipeRunner\Module\ModuleMethodExecutor;
-use RecipeRunner\Adapter\Expression\SymfonyExpressionLanguage;
+use RecipeRunner\RecipeRunner\Module\Invocation\Method;
+use RecipeRunner\RecipeRunner\Module\ModuleMethodExecutor;
+use RecipeRunner\RecipeRunner\Adapter\Expression\SymfonyExpressionLanguage;
 
 class ModuleMethodExecutorTest extends TestCase
 {
@@ -39,7 +39,7 @@ class ModuleMethodExecutorTest extends TestCase
     }
 
     /**
-     * @expectedException RecipeRunner\Module\Exception\MethodNotFoundException
+     * @expectedException RecipeRunner\RecipeRunner\Module\Exception\MethodNotFoundException
      * @expectedExceptionMessage Method "foo" not found. Maybe there is a missing module.
      */
     public function testRunMethodMustFailWhenMethodNotFound() : void

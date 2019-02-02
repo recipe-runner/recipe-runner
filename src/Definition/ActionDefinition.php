@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace RecipeRunner\Definition;
+namespace RecipeRunner\RecipeRunner\Definition;
 
-use RecipeRunner\Module\Invocation\Method;
+use RecipeRunner\RecipeRunner\Module\Invocation\Method;
 
 class ActionDefinition extends BaseBlockDefinition
 {

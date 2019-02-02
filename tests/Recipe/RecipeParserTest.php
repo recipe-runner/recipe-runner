@@ -9,14 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace RecipeRunner\Test\Recipe;
+namespace RecipeRunner\RecipeRunner\Test\Recipe;
 
 use PHPUnit\Framework\TestCase;
-use RecipeRunner\Definition\RecipeDefinition;
-use RecipeRunner\Definition\StepDefinition;
-use RecipeRunner\Recipe\RecipeParser;
-use RecipeRunner\RecipeVariablesContainer;
-use RecipeRunner\Step\StepParser;
+use RecipeRunner\RecipeRunner\Definition\RecipeDefinition;
+use RecipeRunner\RecipeRunner\Definition\StepDefinition;
+use RecipeRunner\RecipeRunner\Recipe\RecipeParser;
+use RecipeRunner\RecipeRunner\RecipeVariablesContainer;
+use RecipeRunner\RecipeRunner\Step\StepParser;
 use Yosymfony\Collection\MixedCollection;
 
 class RecipeParserTest extends TestCase

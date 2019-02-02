@@ -9,12 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace RecipeRunner\Adapter\Expression;
+namespace RecipeRunner\RecipeRunner\Adapter\Expression;
 
 use Exception;
-use RecipeRunner\Adapter\Expression\Provider\SystemExpressionLanguageProvider;
-use RecipeRunner\Expression\Exception\ErrorResolvingExpressionException;
-use RecipeRunner\Expression\ExpressionResolverInterface;
+use RecipeRunner\RecipeRunner\Adapter\Expression\Provider\SystemExpressionLanguageProvider;
+use RecipeRunner\RecipeRunner\Expression\Exception\ErrorResolvingExpressionException;
+use RecipeRunner\RecipeRunner\Expression\ExpressionResolverInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Yosymfony\Collection\CollectionInterface;
 use Yosymfony\Collection\MixedCollection;

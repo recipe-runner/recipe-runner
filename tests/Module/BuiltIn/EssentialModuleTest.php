@@ -9,12 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace RecipeRunner\Test\Module\BuiltIn;
+namespace RecipeRunner\RecipeRunner\Test\Module\BuiltIn;
 
 use PHPUnit\Framework\TestCase;
-use RecipeRunner\Definition\RecipeMaker\YamlRecipeMaker;
-use RecipeRunner\Module\BuiltIn\EssentialModule;
-use RecipeRunner\Recipe\RecipeParser;
+use RecipeRunner\RecipeRunner\Definition\RecipeMaker\YamlRecipeMaker;
+use RecipeRunner\RecipeRunner\Module\BuiltIn\EssentialModule;
+use RecipeRunner\RecipeRunner\Recipe\RecipeParser;
 use Yosymfony\Collection\MixedCollection;
 
 class EssentialModuleTest extends TestCase

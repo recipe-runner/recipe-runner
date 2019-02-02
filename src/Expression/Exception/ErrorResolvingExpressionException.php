@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace RecipeRunner\Expression\Exception;
+namespace RecipeRunner\RecipeRunner\Expression\Exception;
 
 use Exception;
 use RuntimeException;

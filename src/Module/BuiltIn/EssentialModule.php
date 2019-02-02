@@ -9,12 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace RecipeRunner\Module\BuiltIn;
+namespace RecipeRunner\RecipeRunner\Module\BuiltIn;
 
 use InvalidArgumentException;
-use RecipeRunner\Module\Invocation\ExecutionResult;
-use RecipeRunner\Module\Invocation\Method;
-use RecipeRunner\Module\ModuleBase;
+use RecipeRunner\RecipeRunner\Module\Invocation\ExecutionResult;
+use RecipeRunner\RecipeRunner\Module\Invocation\Method;
+use RecipeRunner\RecipeRunner\Module\ModuleBase;
 use Yosymfony\Collection\MixedCollection;
 
 class EssentialModule extends ModuleBase
@@ -34,7 +34,7 @@ class EssentialModule extends ModuleBase
      */
     public function getName() : string
     {
-        return $this->name;
+        return self::NAME;
     }
 
     /**
@@ -42,7 +42,7 @@ class EssentialModule extends ModuleBase
      */
     public function getVersion() : string
     {
-        return $this->version;
+        return self::VERSION;
     }
 
     /**

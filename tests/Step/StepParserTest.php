@@ -9,18 +9,18 @@
  * file that was distributed with this source code.
  */
 
-namespace RecipeRunner\Test\Step;
+namespace RecipeRunner\RecipeRunner\Test\Step;
 
 use PHPUnit\Framework\TestCase;
-use RecipeRunner\Action\ActionParser;
-use RecipeRunner\Adapter\Expression\SymfonyExpressionLanguage;
-use RecipeRunner\Definition\ActionDefinition;
-use RecipeRunner\Definition\StepDefinition;
-use RecipeRunner\Module\Invocation\Method;
-use RecipeRunner\Module\ModuleMethodExecutor;
-use RecipeRunner\RecipeVariablesContainer;
-use RecipeRunner\Step\StepParser;
-use RecipeRunner\Test\Module\FakeModule;
+use RecipeRunner\RecipeRunner\Action\ActionParser;
+use RecipeRunner\RecipeRunner\Adapter\Expression\SymfonyExpressionLanguage;
+use RecipeRunner\RecipeRunner\Definition\ActionDefinition;
+use RecipeRunner\RecipeRunner\Definition\StepDefinition;
+use RecipeRunner\RecipeRunner\Module\Invocation\Method;
+use RecipeRunner\RecipeRunner\Module\ModuleMethodExecutor;
+use RecipeRunner\RecipeRunner\RecipeVariablesContainer;
+use RecipeRunner\RecipeRunner\Step\StepParser;
+use RecipeRunner\RecipeRunner\Test\Module\FakeModule;
 use Yosymfony\Collection\MixedCollection;
 
 class StepParserTest extends TestCase

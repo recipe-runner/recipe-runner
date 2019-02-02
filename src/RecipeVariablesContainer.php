@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace RecipeRunner;
+namespace RecipeRunner\RecipeRunner;
 
 use Yosymfony\Collection\MixedCollection;
 use Yosymfony\Collection\CollectionInterface;

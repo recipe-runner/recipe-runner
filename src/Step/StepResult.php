@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace RecipeRunner\Step;
+namespace RecipeRunner\RecipeRunner\Step;
 
-use RecipeRunner\Definition\StepDefinition;
+use RecipeRunner\RecipeRunner\Definition\StepDefinition;
 use Yosymfony\Collection\CollectionInterface;
 use Yosymfony\Collection\MixedCollection;
 

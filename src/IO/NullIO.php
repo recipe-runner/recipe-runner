@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace RecipeRunner\IO;
+namespace RecipeRunner\RecipeRunner\IO;
 
 /**
  * Non-interactive interface that never writes the output.

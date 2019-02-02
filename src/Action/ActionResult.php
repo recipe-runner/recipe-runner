@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace RecipeRunner\Action;
+namespace RecipeRunner\RecipeRunner\Action;
 
-use RecipeRunner\Definition\ActionDefinition;
+use RecipeRunner\RecipeRunner\Definition\ActionDefinition;
 
 class ActionResult
 {

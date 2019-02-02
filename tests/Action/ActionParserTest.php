@@ -9,18 +9,18 @@
  * file that was distributed with this source code.
  */
 
-namespace RecipeRunner\Test\Action;
+namespace RecipeRunner\RecipeRunner\Test\Action;
 
 use PHPUnit\Framework\TestCase;
-use RecipeRunner\Action\ActionParser;
-use RecipeRunner\Adapter\Expression\SymfonyExpressionLanguage;
-use RecipeRunner\Definition\ActionDefinition;
-use RecipeRunner\Module\Invocation\ExecutionResult;
-use RecipeRunner\Module\Invocation\Method;
-use RecipeRunner\Module\ModuleBase;
-use RecipeRunner\Module\ModuleMethodExecutor;
-use RecipeRunner\RecipeVariablesContainer;
-use RecipeRunner\Test\Module\FakeModule;
+use RecipeRunner\RecipeRunner\Action\ActionParser;
+use RecipeRunner\RecipeRunner\Adapter\Expression\SymfonyExpressionLanguage;
+use RecipeRunner\RecipeRunner\Definition\ActionDefinition;
+use RecipeRunner\RecipeRunner\Module\Invocation\ExecutionResult;
+use RecipeRunner\RecipeRunner\Module\Invocation\Method;
+use RecipeRunner\RecipeRunner\Module\ModuleBase;
+use RecipeRunner\RecipeRunner\Module\ModuleMethodExecutor;
+use RecipeRunner\RecipeRunner\RecipeVariablesContainer;
+use RecipeRunner\RecipeRunner\Test\Module\FakeModule;
 use Yosymfony\Collection\MixedCollection;
 
 class ActionParserTest extends TestCase
@@ -188,7 +188,7 @@ class ActionParserTest extends TestCase
     }
 
     /**
-     * @expectedException RecipeRunner\Expression\Exception\ErrorResolvingExpressionException
+     * @expectedException RecipeRunner\RecipeRunner\Expression\Exception\ErrorResolvingExpressionException
      */
     public function testParseMustFailWhenWhenExpressionIsNotBoolean(): void
     {
@@ -202,7 +202,7 @@ class ActionParserTest extends TestCase
     }
 
     /**
-     * @expectedException RecipeRunner\Module\Exception\MethodNotFoundException
+     * @expectedException RecipeRunner\RecipeRunner\Module\Exception\MethodNotFoundException
      * @expectedExceptionMessage Method "foo" not found.
      */
     public function testParseMustFailWhenTheMethodDoesNotExist(): void

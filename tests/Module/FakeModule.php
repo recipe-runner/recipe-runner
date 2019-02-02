@@ -9,12 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace RecipeRunner\Test\Module;
+namespace RecipeRunner\RecipeRunner\Test\Module;
 
-use RecipeRunner\Module\ModuleBase;
+use RecipeRunner\RecipeRunner\Module\ModuleBase;
 use Yosymfony\Collection\MixedCollection;
-use RecipeRunner\Module\Invocation\Method;
-use RecipeRunner\Module\Invocation\ExecutionResult;
+use RecipeRunner\RecipeRunner\Module\Invocation\Method;
+use RecipeRunner\RecipeRunner\Module\Invocation\ExecutionResult;
 
 class FakeModule extends ModuleBase
 {

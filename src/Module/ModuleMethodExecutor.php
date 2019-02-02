@@ -9,17 +9,17 @@
  * file that was distributed with this source code.
  */
 
-namespace RecipeRunner\Module;
+namespace RecipeRunner\RecipeRunner\Module;
 
 use InvalidArgumentException;
 use Yosymfony\Collection\CollectionInterface;
-use RecipeRunner\Module\Invocation\Method;
-use RecipeRunner\Module\Invocation\ExecutionResult;
-use RecipeRunner\Module\Exception\MethodNotFoundException;
+use RecipeRunner\RecipeRunner\Module\Invocation\Method;
+use RecipeRunner\RecipeRunner\Module\Invocation\ExecutionResult;
+use RecipeRunner\RecipeRunner\Module\Exception\MethodNotFoundException;
 
 class ModuleMethodExecutor
 {
-    /** @var MixedCollection */
+    /** @var CollectionInterface */
     private $modules;
 
     /**

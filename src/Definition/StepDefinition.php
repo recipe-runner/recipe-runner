@@ -9,8 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace RecipeRunner\Definition;
+namespace RecipeRunner\RecipeRunner\Definition;
 
+use InvalidArgumentException;
 use Yosymfony\Collection\CollectionInterface;
 use Yosymfony\Collection\MixedCollection;
 

@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace RecipeRunner\Test\Adapter\Expression;
+namespace RecipeRunner\RecipeRunner\Test\Adapter\Expression;
 
 use PHPUnit\Framework\TestCase;
 use Yosymfony\Collection\MixedCollection;
-use RecipeRunner\Adapter\Expression\SymfonyExpressionLanguage;
+use RecipeRunner\RecipeRunner\Adapter\Expression\SymfonyExpressionLanguage;
 
 class SymfonyExpressionLanguageTest extends TestCase
 {
@@ -79,7 +79,7 @@ class SymfonyExpressionLanguageTest extends TestCase
     }
 
     /**
-     * @expectedException RecipeRunner\Expression\Exception\ErrorResolvingExpressionException
+     * @expectedException RecipeRunner\RecipeRunner\Expression\Exception\ErrorResolvingExpressionException
      * @expectedExceptionMessage List are not valid values for string interpolation. Expression: "1..4". Literal: "numbers {{1..4}}".
      */
     public function testNameResolveStringInterpolationMustFailWhenPlaceHolderIsResolvedToAList() : void
@@ -89,7 +89,7 @@ class SymfonyExpressionLanguageTest extends TestCase
     }
 
     /**
-     * @expectedException RecipeRunner\Expression\Exception\ErrorResolvingExpressionException
+     * @expectedException RecipeRunner\RecipeRunner\Expression\Exception\ErrorResolvingExpressionException
      * @expectedExceptionMessage Error resolving expression: "1..".
      */
     public function testNameResolveStringInterpolationMustFailWhenBadExpression() : void

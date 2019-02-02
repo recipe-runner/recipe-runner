@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace RecipeRunner;
+namespace RecipeRunner\RecipeRunner;
 
-use RecipeRunner\Expression\ExpressionResolverInterface;
-use RecipeRunner\IO\IOAwareInterface;
-use RecipeRunner\IO\IOTrait;
+use RecipeRunner\RecipeRunner\Expression\ExpressionResolverInterface;
+use RecipeRunner\RecipeRunner\IO\IOAwareInterface;
+use RecipeRunner\RecipeRunner\IO\IOTrait;
 use Yosymfony\Collection\CollectionInterface;
 use Yosymfony\Collection\MixedCollection;
 

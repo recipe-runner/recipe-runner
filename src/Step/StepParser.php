@@ -9,14 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace RecipeRunner\Step;
+namespace RecipeRunner\RecipeRunner\Step;
 
-use RecipeRunner\Action\ActionParser;
-use RecipeRunner\Definition\StepDefinition;
-use RecipeRunner\Expression\ExpressionResolverInterface;
-use RecipeRunner\ParserBase;
-use RecipeRunner\RecipeVariablesContainer;
-use RecipeRunner\Step\StepResult;
+use RecipeRunner\RecipeRunner\Action\ActionParser;
+use RecipeRunner\RecipeRunner\Definition\StepDefinition;
+use RecipeRunner\RecipeRunner\Expression\ExpressionResolverInterface;
+use RecipeRunner\RecipeRunner\ParserBase;
+use RecipeRunner\RecipeRunner\RecipeVariablesContainer;
+use RecipeRunner\RecipeRunner\Step\StepResult;
 use Yosymfony\Collection\CollectionInterface;
 use Yosymfony\Collection\MixedCollection;
 
