@@ -31,6 +31,14 @@ class EssentialModuleTest extends TestCase
         $this->recipeParser = RecipeParser::Create(new MixedCollection([new EssentialModule()]));
     }
 
+    public function testMustReturnMetadata(): void
+    {
+        $module = new EssentialModule();
+
+        $this->assertEquals('Essential', $module->getName());
+        $this->assertEquals('0.0.0.0', $module->getVersion());
+    }
+
     public function testMethodRegisterVariableMustRegisterVariables(): void
     {
         $ymlRecipe = <<<'yaml'
