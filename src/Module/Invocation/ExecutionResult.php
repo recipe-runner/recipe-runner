@@ -13,10 +13,18 @@ namespace RecipeRunner\RecipeRunner\Module\Invocation;
 
 final class ExecutionResult
 {
+    public const EMPTY_JSON = '{}';
+
     private $jsonResult;
     private $success;
 
-    public function __construct(string $jsonResult, bool $success = true)
+    /**
+     * Constructor.
+     *
+     * @param string $jsonResult Json response. Default value: EMPTY_JSON.
+     * @param bool $success Indicates if the execution was successful.
+     */
+    public function __construct(string $jsonResult = self::EMPTY_JSON, bool $success = true)
     {
         $this->jsonResult = $jsonResult;
         $this->success = $success;
