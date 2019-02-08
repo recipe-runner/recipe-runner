@@ -20,6 +20,11 @@ use RecipeRunner\RecipeRunner\Step\StepResult;
 use Yosymfony\Collection\CollectionInterface;
 use Yosymfony\Collection\MixedCollection;
 
+/**
+ * Parser for steps.
+ *
+ * @author Víctor Puertas <vpgugr@gmail.com>
+ */
 class StepParser extends ParserBase
 {
     /** @var ActionParser */

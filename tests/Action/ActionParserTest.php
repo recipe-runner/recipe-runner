@@ -213,6 +213,18 @@ class ActionParserTest extends TestCase
         $this->actionParser->parse($action, $this->recipeVariables);
     }
 
+    /**
+    * @expectedException RecipeRunner\RecipeRunner\Action\Exception\InvalidJsonException
+    * @expectedExceptionMessage Error parsing the JSON string returned by the method in the action "test action".
+    */
+    public function testParseMustFailWhenTheMethodInvocationReturnABadJson(): void
+    {
+        $method = $this->createMethodInvocation('method_with_bad_json');
+        $action = new ActionDefinition('test action', $method);
+        
+        $this->actionParser->parse($action, $this->recipeVariables);
+    }
+
     private function createMethodInvocation($name, array $parameters = []): Method
     {
         $method = new Method($name);
@@ -228,10 +240,15 @@ class ActionParserTest extends TestCase
     {
         $module = new FakeModule('TestModule');
         $module->setExpressionResolver($expressionResolver);
+        
         $module->addMethod('hi_you', function (Method $method) {
             $name = $method->getParameterNameOrPosition('name', 0);
             
             return \json_encode(['message' => "Hi {$name}"]);
+        });
+
+        $module->addMethod('method_with_bad_json', function (Method $method) {
+            return '{';
         });
 
         return $module;

@@ -14,6 +14,11 @@ namespace RecipeRunner\RecipeRunner\Definition;
 use InvalidArgumentException;
 use Yosymfony\Collection\CollectionInterface;
 
+/**
+ * Recipe definition.
+ *
+ * @author Víctor Puertas <vpgugr@gmail.com>
+ */
 class RecipeDefinition
 {
     private $name;

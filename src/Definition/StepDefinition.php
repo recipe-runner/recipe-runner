@@ -15,6 +15,11 @@ use InvalidArgumentException;
 use Yosymfony\Collection\CollectionInterface;
 use Yosymfony\Collection\MixedCollection;
 
+/**
+ * Step definition.
+ *
+ * @author Víctor Puertas <vpgugr@gmail.com>
+ */
 class StepDefinition extends BaseBlockDefinition
 {
     /** @var CollectionInterface */

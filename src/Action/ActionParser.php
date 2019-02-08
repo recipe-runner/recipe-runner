@@ -21,10 +21,18 @@ use RecipeRunner\RecipeRunner\RecipeVariablesContainer;
 use Yosymfony\Collection\CollectionInterface;
 use Yosymfony\Collection\MixedCollection;
 
+/**
+ * Parser for actions.
+ *
+ * @author Víctor Puertas <vpgugr@gmail.com>
+ */
 class ActionParser extends ParserBase
 {
     /** @var ModuleMethodExecutor */
     private $methodExecutor;
+
+    /** @var string */
+    private $actionName;
 
     /**
      * Constructor.
@@ -41,10 +49,13 @@ class ActionParser extends ParserBase
 
     /**
      * @return ActionResult[]
+     *
+     * @throws InvalidJsonException If method execution returns a bad JSON.
      */
     public function parse(ActionDefinition $action, RecipeVariablesContainer $recipeVariables): CollectionInterface
     {
-        $this->getIO()->write("Parsing action: \"{$action->getName()}\".");
+        $this->actionName = $action->getName();
+        $this->getIO()->write("Parsing action: \"{$this->actionName}\".");
 
         $loopExpression = $action->getLoopExpression();
 
@@ -104,7 +115,7 @@ class ActionParser extends ParserBase
         $variables = \json_decode($json, true);
 
         if ($variables === null) {
-            $message = "Error parsing a JSON string.";
+            $message = "Error parsing the JSON string returned by the method in the action \"{$this->actionName}\".";
             throw new InvalidJsonException($message, $json);
         }
 
