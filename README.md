@@ -23,10 +23,10 @@ composer require recipe-runner/recipe-runner
 
 ```php
 use RecipeRunner\Definition\RecipeMaker;
-use RecipeRunner\Recipe\RecipeParser;
+use RecipeRunner\RecipeRunner\RecipeParserFactory;
 
 $recipeVariables = new MixedCollection();
-$recipeParser = RecipeParser::Create();
+$recipeParser = RecipeParserFactory::Create();
 
 $recipeMaker = new YamlRecipeMaker();
 $recipe = $recipeMaker->makeRecipeFromFile('/path-to-a-recipe.yml');
