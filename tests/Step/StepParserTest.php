@@ -16,6 +16,7 @@ use RecipeRunner\RecipeRunner\Action\ActionParser;
 use RecipeRunner\RecipeRunner\Adapter\Expression\SymfonyExpressionLanguage;
 use RecipeRunner\RecipeRunner\Definition\ActionDefinition;
 use RecipeRunner\RecipeRunner\Definition\StepDefinition;
+use RecipeRunner\RecipeRunner\IO\NullIO;
 use RecipeRunner\RecipeRunner\Module\Invocation\Method;
 use RecipeRunner\RecipeRunner\Module\ModuleMethodExecutor;
 use RecipeRunner\RecipeRunner\RecipeVariablesContainer;
@@ -33,8 +34,9 @@ class StepParserTest extends TestCase
 
     public function setUp(): void
     {
+        $modules = new MixedCollection([$this->createFakeModule()]);
         $expressionResolver = new SymfonyExpressionLanguage();
-        $moduleExecutor = new ModuleMethodExecutor(new MixedCollection([$this->createFakeModule($expressionResolver)]));
+        $moduleExecutor = new ModuleMethodExecutor($modules, $expressionResolver, new NullIO());
         $actionParser = new ActionParser($expressionResolver, $moduleExecutor);
 
         $this->stepParser = new StepParser($actionParser, $expressionResolver);
@@ -142,10 +144,9 @@ class StepParserTest extends TestCase
         return $method;
     }
 
-    private function createFakeModule(SymfonyExpressionLanguage $expressionResolver): FakeModule
+    private function createFakeModule(): FakeModule
     {
         $module = new FakeModule('TestModule');
-        $module->setExpressionResolver($expressionResolver);
         $module->addMethod('hi_you', function (Method $method) {
             $name = $method->getParameterNameOrPosition('name', 0);
             

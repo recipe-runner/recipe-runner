@@ -12,10 +12,11 @@
 namespace RecipeRunner\RecipeRunner\Test\Module;
 
 use PHPUnit\Framework\TestCase;
-use Yosymfony\Collection\MixedCollection;
+use RecipeRunner\RecipeRunner\Adapter\Expression\SymfonyExpressionLanguage;
+use RecipeRunner\RecipeRunner\IO\NullIO;
 use RecipeRunner\RecipeRunner\Module\Invocation\Method;
 use RecipeRunner\RecipeRunner\Module\ModuleMethodExecutor;
-use RecipeRunner\RecipeRunner\Adapter\Expression\SymfonyExpressionLanguage;
+use Yosymfony\Collection\MixedCollection;
 
 class ModuleMethodExecutorTest extends TestCase
 {
@@ -24,7 +25,10 @@ class ModuleMethodExecutorTest extends TestCase
 
     public function setUp() : void
     {
-        $this->moduleMethodExecutor = new ModuleMethodExecutor(new MixedCollection([$this->createFakeModule()]));
+        $io = new NullIO();
+        $modules = new MixedCollection([$this->createFakeModule()]);
+        $expressionResolver =  new SymfonyExpressionLanguage();
+        $this->moduleMethodExecutor = new ModuleMethodExecutor($modules, $expressionResolver, $io);
     }
 
     public function testRunMethodShouldRunAMethod() : void
@@ -64,7 +68,6 @@ class ModuleMethodExecutorTest extends TestCase
     private function createFakeModule() : FakeModule
     {
         $module = new FakeModule('TestModule');
-        $module->setExpressionResolver(new SymfonyExpressionLanguage());
         $module->addMethod('hi_you', function (Method $method) {
             $name = $method->getParameterNameOrPosition('name', 0);
 

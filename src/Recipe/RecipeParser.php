@@ -76,8 +76,7 @@ class RecipeParser implements IOAwareInterface
         $io = $io ?? new NullIO();
         $finalModules = self::composeListOfModules($modules);
         $expressionResolver = new SymfonyExpressionLanguage();
-        self::setUpModules($finalModules, $expressionResolver, $io);
-        $methodExecutor = new ModuleMethodExecutor($finalModules);
+        $methodExecutor = new ModuleMethodExecutor($finalModules, $expressionResolver, $io);
         $actionParser = new ActionParser($expressionResolver, $methodExecutor);
         $stepParser = new StepParser($actionParser, $expressionResolver);
         
@@ -85,14 +84,6 @@ class RecipeParser implements IOAwareInterface
         $recipeParser->setIO($io);
 
         return $recipeParser;
-    }
-
-    private static function setUpModules(CollectionInterface $modules, ExpressionResolverInterface $expressionResolver, IOInterface $io)
-    {
-        foreach ($modules as $module) {
-            $module->setExpressionResolver($expressionResolver);
-            $module->setIO($io);
-        }
     }
 
     private static function composeListOfModules(?CollectionInterface $modules): CollectionInterface

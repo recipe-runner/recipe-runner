@@ -12,10 +12,12 @@
 namespace RecipeRunner\RecipeRunner\Module;
 
 use InvalidArgumentException;
-use Yosymfony\Collection\CollectionInterface;
-use RecipeRunner\RecipeRunner\Module\Invocation\Method;
-use RecipeRunner\RecipeRunner\Module\Invocation\ExecutionResult;
+use RecipeRunner\RecipeRunner\Expression\ExpressionResolverInterface;
+use RecipeRunner\RecipeRunner\IO\IOInterface;
 use RecipeRunner\RecipeRunner\Module\Exception\MethodNotFoundException;
+use RecipeRunner\RecipeRunner\Module\Invocation\ExecutionResult;
+use RecipeRunner\RecipeRunner\Module\Invocation\Method;
+use Yosymfony\Collection\CollectionInterface;
 
 class ModuleMethodExecutor
 {
@@ -27,9 +29,10 @@ class ModuleMethodExecutor
      *
      * @param ModuleInterface[] $modules List of modules.
      */
-    public function __construct(CollectionInterface $modules)
+    public function __construct(CollectionInterface $modules, ExpressionResolverInterface $expressionResolver, IOInterface $io)
     {
         $this->validateModuleCollection($modules);
+        $this->setUpModules($modules, $expressionResolver, $io);
         $this->modules = $modules;
     }
 
@@ -58,6 +61,14 @@ class ModuleMethodExecutor
         if (!$isValid) {
             $message = 'Invalid module collection. Some elements are not implementing ModuleInterface.';
             throw new InvalidArgumentException($message);
+        }
+    }
+
+    private function setUpModules(CollectionInterface $modules, ExpressionResolverInterface $expressionResolver, IOInterface $io)
+    {
+        foreach ($modules as $module) {
+            $module->setExpressionResolver($expressionResolver);
+            $module->setIO($io);
         }
     }
 }
