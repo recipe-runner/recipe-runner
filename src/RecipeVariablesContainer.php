@@ -22,9 +22,6 @@ class RecipeVariablesContainer
     /** @var CollectionInterface */
     private $scopeVariables;
 
-    /** @var CollectionInterface */
-    private $mixedVariables;
-
     public function __construct(CollectionInterface $recipeVariables)
     {
         $this->recipeVariables = $recipeVariables;
@@ -33,7 +30,7 @@ class RecipeVariablesContainer
 
     public function getRecipeVariables() : CollectionInterface
     {
-        return new MixedCollection($this->recipeVariables->all());
+        return $this->recipeVariables->copy();
     }
 
     public function registerRecipeVariable($name, $content) : void
@@ -43,11 +40,7 @@ class RecipeVariablesContainer
 
     public function getScopeVariables() : CollectionInterface
     {
-        if ($this->mixedVariables === null) {
-            $this->mixedVariables = $this->recipeVariables->union($this->scopeVariables)->getReadOnlyCollection();
-        }
-
-        return new MixedCollection($this->mixedVariables->all());
+        return $this->recipeVariables->union($this->scopeVariables);
     }
 
     public function makeWithScopeVariables(CollectionInterface $variables) : RecipeVariablesContainer

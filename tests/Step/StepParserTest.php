@@ -122,6 +122,17 @@ class StepParserTest extends TestCase
         $this->assertTrue($result->lastOrDefault()->getExecuted());
     }
 
+    public function testSecondActionMustHaveAccessToTheVariableRegisteredByTheFirstStep(): void
+    {
+        $method1 = $this->createMethodInvocation('hi_you', ['name' => 'Víctor']);
+        $method2 = $this->createMethodInvocation('hi_you', ['name' => 'The name was "{{previous["message"]}}"']);
+        $step = $this->createStepWithTwoActions($method1, $method2, 'previous', 'final_message');
+
+        $result = $this->stepParser->parse($step, $this->recipeVariables);
+
+        $this->assertEquals('Hi The name was "Hi Víctor"', $this->recipeVariables->getRecipeVariables()->getDot('final_message.message'));
+    }
+
     private function createStepWithAction(Method $method, ?string $registerVariable = null): StepDefinition
     {
         $action = new ActionDefinition('test action', $method);
@@ -131,6 +142,22 @@ class StepParserTest extends TestCase
         }
 
         return new StepDefinition('test step', new MixedCollection([$action]));
+    }
+
+    private function createStepWithTwoActions(Method $method1, Method $method2, ?string $registerVariable1 = null, ?string $registerVariable2 = null): StepDefinition
+    {
+        $action1 = new ActionDefinition('test action 1', $method1);
+        $action2 = new ActionDefinition('test action 2', $method2);
+
+        if ($registerVariable1 !== null) {
+            $action1->setVariableName($registerVariable1);
+        }
+
+        if ($registerVariable2 !== null) {
+            $action2->setVariableName($registerVariable2);
+        }
+
+        return new StepDefinition('test step', new MixedCollection([$action1, $action2]));
     }
 
     private function createMethodInvocation($name, array $parameters = []): Method
