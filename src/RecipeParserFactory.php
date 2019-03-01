@@ -38,8 +38,14 @@ class RecipeParserFactory
 
     private static function composeListOfModules(?CollectionInterface $modules): CollectionInterface
     {
-        $basicModules = new MixedCollection([new EssentialModule()]);
+        $finalModules = [new EssentialModule()];
         
-        return $modules ? $basicModules->union($modules) : $basicModules;
+        if ($modules !== null) {
+            foreach ($modules as $module) {
+                $finalModules[] = $module;
+            }
+        }
+
+        return new MixedCollection($finalModules);
     }
 }
