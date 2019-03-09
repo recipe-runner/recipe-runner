@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
 use RecipeRunner\RecipeRunner\Definition\RecipeMaker\YamlRecipeMaker;
 use RecipeRunner\RecipeRunner\Module\BuiltIn\EssentialModule;
 use RecipeRunner\RecipeRunner\Recipe\RecipeParser;
-use RecipeRunner\RecipeRunner\RecipeParserFactory;
+use RecipeRunner\RecipeRunner\Setup\QuickStart;
 use Yosymfony\Collection\MixedCollection;
 
 class EssentialModuleTest extends TestCase
@@ -29,7 +29,7 @@ class EssentialModuleTest extends TestCase
     public function setUp(): void
     {
         $this->recipeMaker = new YamlRecipeMaker();
-        $this->recipeParser = RecipeParserFactory::Create(new MixedCollection([new EssentialModule()]));
+        $this->recipeParser = QuickStart::Create(new MixedCollection([new EssentialModule()]));
     }
 
     public function testMustReturnMetadata(): void

@@ -1,6 +1,6 @@
 <?php
 
-namespace RecipeRunner\RecipeRunner;
+namespace RecipeRunner\RecipeRunner\Setup;
 
 use RecipeRunner\RecipeRunner\Action\ActionParser;
 use RecipeRunner\RecipeRunner\Adapter\Expression\SymfonyExpressionLanguage;
@@ -13,13 +13,21 @@ use RecipeRunner\RecipeRunner\Step\StepParser;
 use Yosymfony\Collection\CollectionInterface;
 use Yosymfony\Collection\MixedCollection;
 
-class RecipeParserFactory
+/**
+ * Builds a working recipe parser with minimum fuss.
+ *
+ * @author Víctor Puertas <vpgugr@gmail.com>
+ */
+class QuickStart
 {
     /**
-     * Creates a standard RecipeParser. This method always add the Essential module.
+     * Creates a default RecipeParser that you can get started with.
+     * This method always add the Essential module.
      *
      * @param ModuleInterface[] $modules Collection of modules available for recipes.
      * @param IOInterface $io The input/output.
+     *
+     * @return RecipeParser
      */
     public static function create(CollectionInterface $modules = null, IOInterface $io = null): RecipeParser
     {
