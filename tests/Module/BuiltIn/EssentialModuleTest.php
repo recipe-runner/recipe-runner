@@ -12,41 +12,34 @@
 namespace RecipeRunner\RecipeRunner\Test\Module\BuiltIn;
 
 use PHPUnit\Framework\TestCase;
-use RecipeRunner\RecipeRunner\Definition\RecipeMaker\YamlRecipeMaker;
 use RecipeRunner\RecipeRunner\Module\BuiltIn\EssentialModule;
-use RecipeRunner\RecipeRunner\Recipe\RecipeParser;
-use RecipeRunner\RecipeRunner\Setup\QuickStart;
+use RecipeRunner\RecipeRunner\Module\Invocation\Method;
 use Yosymfony\Collection\MixedCollection;
 
 class EssentialModuleTest extends TestCase
 {
-    /** @var RecipeParser */
-    private $recipeParser;
+    /** @var EssentialModule*/
+    private $module;
 
-    /** @var YamlRecipeMaker */
-    private $recipeMaker;
-    
+    /** @var Method */
+    private $method;
+
     public function setUp(): void
     {
-        $this->recipeMaker = new YamlRecipeMaker();
-        $this->recipeParser = QuickStart::Create(new MixedCollection([new EssentialModule()]));
+        $this->module = new EssentialModule();
+        $this->method = new Method('register_variables');
     }
 
     public function testMethodRegisterVariableMustRegisterVariables(): void
     {
-        $ymlRecipe = <<<'yaml'
-steps:
-    - actions:
-        - register_variables:
-            user: "victor"
-          register: my_variables
-yaml;
-        $recipeVariables = new MixedCollection();
-        $recipeDefinition = $this->recipeMaker->makeRecipeFromString($ymlRecipe);
+        $this->method->addParameter('user', 'Víctor');
 
-        $this->recipeParser->parse($recipeDefinition, $recipeVariables);
-
-        $this->assertEquals('victor', $recipeVariables->getDot('my_variables.user'));
+        $response = $this->module->runMethod($this->method, new MixedCollection());
+        $arrayResponse = \json_decode($response->getJsonResult(), true);
+        
+        $this->assertEquals([
+            'user' => 'Víctor',
+        ], $arrayResponse);
     }
 
     /**
@@ -55,15 +48,6 @@ yaml;
     */
     public function testMethodRegisterVariableMustFailWhenThereIsNoVariables(): void
     {
-        $ymlRecipe = <<<'yaml'
-steps:
-    - actions:
-        - register_variables:
-          register: my_variables
-yaml;
-        $recipeVariables = new MixedCollection();
-        $recipeDefinition = $this->recipeMaker->makeRecipeFromString($ymlRecipe);
-
-        $this->recipeParser->parse($recipeDefinition, $recipeVariables);
+        $this->module->runMethod($this->method, new MixedCollection());
     }
 }
