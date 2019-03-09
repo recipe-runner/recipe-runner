@@ -15,23 +15,13 @@ use RecipeRunner\RecipeRunner\Expression\ExpressionResolverInterface;
 use RecipeRunner\RecipeRunner\IO\IOAwareInterface;
 use RecipeRunner\RecipeRunner\Module\Invocation\ExecutionResult;
 use RecipeRunner\RecipeRunner\Module\Invocation\Method;
-use Yosymfony\Collection\MixedCollection;
+use Yosymfony\Collection\CollectionInterface;
 
 /**
  * Interface for all modules.
  */
 interface ModuleInterface extends IOAwareInterface
 {
-    /**
-     * Returns the name of the module.
-     */
-    public function getName() : string;
-
-    /**
-     * Returns the version of the module.
-     */
-    public function getVersion() : string;
-
     /**
      * Checks if the method belong to a module.
      *
@@ -43,11 +33,11 @@ interface ModuleInterface extends IOAwareInterface
      * Runs a method of a module.
      *
      * @param Method $method The method to be executed.
-     * @param MixedCollection $recipeVariables
+     * @param CollectionInterface $recipeVariables
      *
      * @return string Result of the execution in JSON format.
      */
-    public function runMethod(Method $method, MixedCollection $recipeVariables) : ExecutionResult;
+    public function runMethod(Method $method, CollectionInterface $recipeVariables) : ExecutionResult;
 
     /**
      * Sets the expression resolver.
