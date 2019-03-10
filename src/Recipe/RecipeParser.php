@@ -49,7 +49,7 @@ class RecipeParser implements IOAwareInterface
         $this->getIO()->write("Parsing recipe \"{$recipe->getName()}\".");
 
         $stepResults = new MixedCollection();
-        $recipeVariablesContainer = new RecipeVariablesContainer($recipeVariables);
+        $recipeVariablesContainer = new RecipeVariablesContainer($recipeVariables->copy());
 
         foreach ($recipe->getStepDefinitions() as $key => $step) {
             $stepResults->add($key, $this->stepParser->parse($step, $recipeVariablesContainer));
