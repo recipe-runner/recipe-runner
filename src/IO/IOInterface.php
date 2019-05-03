@@ -90,22 +90,22 @@ interface IOInterface
      *
      * @param string $question The question to ask.
      * @param array $Choices List of choices to pick from.
-     * @param int $default Index of the choice list that it the default answer if the user enters nothing.
+     * @param bool|string $default The default answer if the user enters nothing.
      * @param int $attempts Max number of times to ask before giving up. INFINITE_ATTEMPTS in case no limits.
      *
-     * @return int The selected value (the key of the choices array).
+     * @return string The selected value (the key of the choices array).
      */
-    public function askChoice(string $question, array $choices, int $default, int $attempts = self::INFINITE_ATTEMPTS): int;
+    public function askChoice(string $question, array $choices, $default, int $attempts = self::INFINITE_ATTEMPTS): string;
 
     /**
      * Asks the user to select a value.
      *
      * @param string $question The question to ask.
      * @param array $Choices List of choices to pick from.
-     * @param int $default Index of the choice list that it the default answer if the user enters nothing.
+     * @param  bool|string $default The default answer if the user enters nothing.
      * @param int $attempts Max number of times to ask before giving up. INFINITE_ATTEMPTS in case no limit.
      *
-     * @return int The selected values (the keys of the choices array).
+     * @return array The selected values (the keys of the choices array).
      */
-    public function askMultiselectChoice(string $question, array $choices, int $default, int $attempts = self::INFINITE_ATTEMPTS): array;
+    public function askMultiselectChoice(string $question, array $choices, $default, int $attempts = self::INFINITE_ATTEMPTS): array;
 }

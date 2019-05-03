@@ -60,7 +60,7 @@ class NullIO implements IOInterface
     /**
      * {@inheritdoc}
      */
-    public function askChoice(string $question, array $choices, int $default, int $attempts = self::INFINITE_ATTEMPTS): int
+    public function askChoice(string $question, array $choices, $default, int $attempts = self::INFINITE_ATTEMPTS): string
     {
         return $default;
     }
@@ -68,8 +68,8 @@ class NullIO implements IOInterface
     /**
      * {@inheritdoc}
      */
-    public function askMultiselectChoice(string $question, array $choices, int $default, int $attempts = self::INFINITE_ATTEMPTS): array
+    public function askMultiselectChoice(string $question, array $choices, $default, int $attempts = self::INFINITE_ATTEMPTS): array
     {
-        return [$default];
+        return [(string) $default];
     }
 }
