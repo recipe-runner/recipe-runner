@@ -57,7 +57,9 @@ class YamlRecipeMaker
     {
         $recipeAsCollection = new MixedCollection($recipeAsCollection);
         $name = (string) $recipeAsCollection->getOrDefault('name', 'Recipe with no name');
-        $recipeDef = new RecipeDefinition($name, $this->readSteps($recipeAsCollection));
+        $extraDataCollection = new MixedCollection($recipeAsCollection->getOrDefault('extra', []));
+        $stepCollection = $this->readSteps($recipeAsCollection);
+        $recipeDef = new RecipeDefinition($name, $stepCollection, $extraDataCollection);
 
         return $recipeDef;
     }

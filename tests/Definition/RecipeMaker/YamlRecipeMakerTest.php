@@ -54,6 +54,32 @@ yaml;
         $this->assertCount(2, $actionDefinitions[0]->getLoopExpression());
         $this->assertEquals('os_family == "Ubuntu"', $actionDefinitions[0]->getWhenExpression());
         $this->assertEquals($method, $actionDefinitions[0]->getMethod());
+        $this->assertTrue($recipeDefinition->getExtra()->isEmpty());
+    }
+
+    public function testMakeRecipeFromStringMustReturnExtraData(): void
+    {
+        $ymlRecipe = <<<'yaml'
+name: "My first recipe"
+extra:
+    rr:
+      stop_on_error: false
+steps:
+    - name: "step 1"
+      actions:
+        - name: "Directory {{ current_dir }}"
+          shell: "ls -a"
+yaml;
+        $method = new Method('shell');
+        $method->addParameter(0, 'ls -a');
+        $maker = new YamlRecipeMaker();
+        $recipeDefinition = $maker->makeRecipeFromString($ymlRecipe);
+
+        $this->assertEquals([
+                'rr' => [
+                  'stop_on_error' => false,
+                ],
+              ], $recipeDefinition->getExtra()->toArray());
     }
 
     /**

@@ -13,6 +13,7 @@ namespace RecipeRunner\RecipeRunner\Definition;
 
 use InvalidArgumentException;
 use Yosymfony\Collection\CollectionInterface;
+use Yosymfony\Collection\MixedCollection;
 
 /**
  * Recipe definition.
@@ -26,7 +27,10 @@ class RecipeDefinition
     /** @var CollectionInterface */
     private $stepDefinitions;
 
-    public function __construct(string $name, CollectionInterface $stepDefinitions)
+    /** @var CollectionInterface */
+    private $extraData;
+
+    public function __construct(string $name, CollectionInterface $stepDefinitions, CollectionInterface $extra = null)
     {
         if (\strlen(\trim($name)) == 0) {
             throw new InvalidArgumentException('The parameter name cannot be empty.');
@@ -38,6 +42,7 @@ class RecipeDefinition
 
         $this->name = $name;
         $this->stepDefinitions = $stepDefinitions;
+        $this->extraData = $extra ?? new MixedCollection();
     }
 
     public function getName(): string
@@ -53,5 +58,10 @@ class RecipeDefinition
     public function getStepDefinitions(): CollectionInterface
     {
         return $this->stepDefinitions;
+    }
+
+    public function getExtra(): CollectionInterface
+    {
+        return $this->extraData;
     }
 }
