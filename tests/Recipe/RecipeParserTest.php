@@ -16,7 +16,7 @@ use RecipeRunner\RecipeRunner\Definition\RecipeDefinition;
 use RecipeRunner\RecipeRunner\Definition\StepDefinition;
 use RecipeRunner\RecipeRunner\Recipe\RecipeParser;
 use RecipeRunner\RecipeRunner\RecipeVariablesContainer;
-use RecipeRunner\RecipeRunner\Step\StepParser;
+use RecipeRunner\RecipeRunner\Block\Step\StepParser;
 use Yosymfony\Collection\MixedCollection;
 
 class RecipeParserTest extends TestCase

@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace RecipeRunner\RecipeRunner;
+namespace RecipeRunner\RecipeRunner\Block;
 
 use RecipeRunner\RecipeRunner\Expression\ExpressionResolverInterface;
 use RecipeRunner\RecipeRunner\IO\IOAwareInterface;

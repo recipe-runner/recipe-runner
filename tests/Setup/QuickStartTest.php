@@ -33,10 +33,9 @@ class QuickStartTest extends TestCase
         $recipeDefinition = $this->createRecipeDefinition($method);
         $recipeParser = QuickStart::Create();
         
-        $stepResults = $recipeParser->parse($recipeDefinition, $recipeVariables);
+        $blockResultCollection = $recipeParser->parse($recipeDefinition, $recipeVariables);
 
-        $this->assertCount(1, $stepResults);
-        $this->assertTrue($stepResults[0][0]->getExecuted());
+        $this->assertCount(2, $blockResultCollection);
     }
 
     public function testCreateMustCreateAValidRecipeParserWithTheModulesPassed(): void
@@ -49,8 +48,7 @@ class QuickStartTest extends TestCase
         
         $stepResults = $recipeParser->parse($recipeDefinition, $recipeVariables);
 
-        $this->assertCount(1, $stepResults);
-        $this->assertTrue($stepResults[0][0]->getExecuted());
+        $this->assertCount(2, $stepResults);
     }
     
     private function createRecipeDefinition(Method $method)

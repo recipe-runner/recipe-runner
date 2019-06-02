@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace RecipeRunner\RecipeRunner\Test\Action;
+namespace RecipeRunner\RecipeRunner\Test\Block\Action;
 
 use PHPUnit\Framework\TestCase;
-use RecipeRunner\RecipeRunner\Action\ActionParser;
+use RecipeRunner\RecipeRunner\Block\Action\ActionParser;
 use RecipeRunner\RecipeRunner\Adapter\Expression\SymfonyExpressionLanguage;
 use RecipeRunner\RecipeRunner\Definition\ActionDefinition;
 use RecipeRunner\RecipeRunner\IO\NullIO;
@@ -50,7 +50,7 @@ class ActionParserTest extends TestCase
         $result = $this->actionParser->parse($action, $this->recipeVariables);
 
         $this->assertEquals('Hi Víctor', $this->recipeVariables->getRecipeVariables()->getDot('greetings.message'));
-        $this->assertTrue($result->firstOrDefault()->getExecuted());
+        $this->assertTrue($result->getIterationResultAt(0)->isExecuted());
     }
 
     public function testParseMustExecuteTheMethodWhenWhereConditionIsTrue(): void
@@ -61,7 +61,7 @@ class ActionParserTest extends TestCase
         
         $result = $this->actionParser->parse($action, $this->recipeVariables);
 
-        $this->assertTrue($result->firstOrDefault()->getExecuted());
+        $this->assertTrue($result->getIterationResultAt(0)->isExecuted());
     }
 
     public function testParseMustNotExecuteTheMethodWhenWhereConditionIsFalse(): void
@@ -72,7 +72,7 @@ class ActionParserTest extends TestCase
         
         $result = $this->actionParser->parse($action, $this->recipeVariables);
 
-        $this->assertFalse($result->firstOrDefault()->getExecuted());
+        $this->assertFalse($result->getIterationResultAt(0)->isExecuted());
     }
 
     public function testParseMustReturnTheStatusOfTheExecutionWhenRegisterVariableNameIsSet(): void
@@ -84,7 +84,7 @@ class ActionParserTest extends TestCase
         $result = $this->actionParser->parse($action, $this->recipeVariables);
 
         $this->assertTrue($this->recipeVariables->getRecipeVariables()->getDot('greetings.success'));
-        $this->assertTrue($result->firstOrDefault()->getSucceed());
+        $this->assertTrue($result->getIterationResultAt(0)->isSuccessful());
     }
 
     public function testParseMustExecuteTheMethodSeveralTimesWhenThereIsALoopExpression(): void
@@ -94,9 +94,9 @@ class ActionParserTest extends TestCase
         $action->setVariableName('greetings_2_times')
             ->setLoopExpression('[1,2]');
         
-        $actionResult = $this->actionParser->parse($action, $this->recipeVariables);
+        $result = $this->actionParser->parse($action, $this->recipeVariables);
 
-        $this->assertCount(2, $actionResult);
+        $this->assertEquals(2, $result->getNumberOfIterations());
         $this->assertEquals([
             'greetings_2_times' => [
                 [
@@ -118,9 +118,9 @@ class ActionParserTest extends TestCase
         $action->setVariableName('greetings_2_times')
             ->setLoopExpression(new MixedCollection([1,2]));
         
-        $actionResult = $this->actionParser->parse($action, $this->recipeVariables);
+        $result = $this->actionParser->parse($action, $this->recipeVariables);
 
-        $this->assertCount(2, $actionResult);
+        $this->assertEquals(2, $result->getNumberOfIterations());
         $this->assertEquals([
             'greetings_2_times' => [
                 [
@@ -162,11 +162,11 @@ class ActionParserTest extends TestCase
             ->setLoopExpression(new MixedCollection(['a' => 1, 'b' => 2]))
             ->setWhenExpression('loop["index"] == "b"');
         
-        $actionResult = $this->actionParser->parse($action, $this->recipeVariables);
+        $result = $this->actionParser->parse($action, $this->recipeVariables);
 
-        $this->assertCount(2, $actionResult);
-        $this->assertFalse($actionResult->get('a')->getExecuted());
-        $this->assertTrue($actionResult->get('b')->getExecuted());
+        $this->assertEquals(2, $result->getNumberOfIterations());
+        $this->assertFalse($result->getIterationResultAt(0)->isExecuted());
+        $this->assertTrue($result->getIterationResultAt(1)->isExecuted());
         $this->assertEquals([
             'greetings' => [
                 'b' => [
@@ -216,7 +216,7 @@ class ActionParserTest extends TestCase
     }
 
     /**
-    * @expectedException RecipeRunner\RecipeRunner\Action\Exception\InvalidJsonException
+    * @expectedException RecipeRunner\RecipeRunner\Block\Action\Exception\InvalidJsonException
     * @expectedExceptionMessage Error parsing the JSON string returned by the method in the action "test action".
     */
     public function testParseMustFailWhenTheMethodInvocationReturnABadJson(): void

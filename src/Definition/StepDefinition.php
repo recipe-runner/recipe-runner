@@ -31,9 +31,9 @@ class StepDefinition extends BaseBlockDefinition
      * @param string $name The name of the step.
      * @param ActionDefinition[] $actionDefinitions
      */
-    public function __construct(string $name, CollectionInterface $actionDefinitions)
+    public function __construct(string $id, CollectionInterface $actionDefinitions)
     {
-        parent::__construct($name);
+        parent::__construct($id);
 
         if ($actionDefinitions->isEmpty()) {
             throw new InvalidArgumentException('Any step needs at least one action.');

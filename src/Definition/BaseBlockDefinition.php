@@ -15,10 +15,15 @@ use InvalidArgumentException;
 use Yosymfony\Collection\CollectionInterface;
 
 /**
- * Class base for steps and activities.
+ * Class base for steps and activity definitions.
+ *
+ * @author Víctor Puertas <vpgugr@gmail.com>
  */
 class BaseBlockDefinition
 {
+    /** @var string */
+    private $id;
+
     /** @var string */
     private $name;
     
@@ -28,17 +33,31 @@ class BaseBlockDefinition
     /** @var string|CollectionInterface */
     private $loopExpression = '';
 
-    protected function __construct(string $name)
+    /**
+     * Constructor.
+     *
+     * @param string $id The Id of the block.
+     */
+    protected function __construct(string $id)
     {
-        if (\strlen(\trim($name)) == 0) {
-            throw new InvalidArgumentException('The parameter name cannot be empty.');
-        }
-
-        $this->name = $name;
+        $this->setId($id);
+        $this->setName($id);
     }
 
     /**
-     *  Returns the value of "when" expression.
+     * Returns the Id of the block.
+     *
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    /**
+     * Returns the value of "when" expression.
+     *
+     * @return string
      */
     public function getWhenExpression(): string
     {
@@ -89,10 +108,38 @@ class BaseBlockDefinition
     }
 
     /**
-     * Returns the value of name.
+     * Sets the name of the block.
+     *
+     * @param string $name
+     *
+     * @return  self
+     */
+    public function setName(string $name)
+    {
+        $this->assertParameterIsNotEmpty($name, 'name');
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Returns the name of the block.
      */
     public function getName(): string
     {
         return $this->name;
+    }
+
+    private function setId(string $id): void
+    {
+        $this->assertParameterIsNotEmpty($id, 'id');
+        $this->id = $id;
+    }
+
+    private function assertParameterIsNotEmpty(string $value, string $paramName): void
+    {
+        if (\strlen(\trim($value)) == 0) {
+            throw new InvalidArgumentException("The parameter \"{$paramName}\" cannot be empty.");
+        }
     }
 }

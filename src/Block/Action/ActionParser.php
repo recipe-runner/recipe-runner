@@ -9,14 +9,16 @@
  * file that was distributed with this source code.
  */
 
-namespace RecipeRunner\RecipeRunner\Action;
+namespace RecipeRunner\RecipeRunner\Block\Action;
 
-use RecipeRunner\RecipeRunner\Action\Exception\InvalidJsonException;
+use RecipeRunner\RecipeRunner\Block\Action\Exception\InvalidJsonException;
+use RecipeRunner\RecipeRunner\Block\BlockResult;
+use RecipeRunner\RecipeRunner\Block\IterationResult;
+use RecipeRunner\RecipeRunner\Block\ParserBase;
 use RecipeRunner\RecipeRunner\Definition\ActionDefinition;
 use RecipeRunner\RecipeRunner\Expression\ExpressionResolverInterface;
 use RecipeRunner\RecipeRunner\Module\Invocation\ExecutionResult;
 use RecipeRunner\RecipeRunner\Module\ModuleMethodExecutor;
-use RecipeRunner\RecipeRunner\ParserBase;
 use RecipeRunner\RecipeRunner\RecipeVariablesContainer;
 use Yosymfony\Collection\CollectionInterface;
 use Yosymfony\Collection\MixedCollection;
@@ -48,48 +50,50 @@ class ActionParser extends ParserBase
     }
 
     /**
-     * @return ActionResult[]
+     * Parsers an action.
+     *
+     * @return BlockResult
      *
      * @throws InvalidJsonException If method execution returns a bad JSON.
      */
-    public function parse(ActionDefinition $action, RecipeVariablesContainer $recipeVariables): CollectionInterface
+    public function parse(ActionDefinition $action, RecipeVariablesContainer $recipeVariables): BlockResult
     {
         $this->actionName = $action->getName();
-        $this->getIO()->write("Parsing action: \"{$this->actionName}\".");
-
         $loopExpression = $action->getLoopExpression();
 
         if ($loopExpression == '') {
-            $actionResult = $this->runBlock($action, $recipeVariables);
+            $iterationResult = $this->runBlock($action, $recipeVariables);
 
-            return new MixedCollection([$actionResult]);
+            return new BlockResult($action->getId(), new MixedCollection([$iterationResult]));
         }
 
         $loopItems = $this->evaluateLoopExpressionIfItIsString($loopExpression, $recipeVariables->getScopeVariables());
         
-        return $this->runBlockInLoop($action, $loopItems, $recipeVariables);
+        $iterationResults = $this->runBlockInLoop($action, $loopItems, $recipeVariables);
+
+        return new BlockResult($action->getId(), new MixedCollection($iterationResults));
     }
 
-    private function runBlock(ActionDefinition $action, RecipeVariablesContainer $recipeVariables) : ActionResult
+    private function runBlock(ActionDefinition $action, RecipeVariablesContainer $recipeVariables) : IterationResult
     {
         if (!$this->evaluateWhenCondition($action->getWhenExpression(), $recipeVariables->getScopeVariables())) {
-            return new ActionResult(true, false, $action);
+            return new IterationResult(false, true);
         }
 
         $executionMethodResult = $this->methodExecutor->runMethod($action->getMethod(), $recipeVariables->getScopeVariables());
 
         $this->registerVariableIfNecessary($recipeVariables, $action, $this->generateMethodExecutionResultVariables($executionMethodResult));
 
-        return new ActionResult($executionMethodResult->isSuccess(), true, $action);
+        return new IterationResult(true, $executionMethodResult->isSuccess());
     }
 
     /**
-     * @return ActionResult[]
+     * @return IterationResult[]
      */
-    private function runBlockInLoop(ActionDefinition $action, CollectionInterface $loopItems, RecipeVariablesContainer $recipeVariables) : CollectionInterface
+    private function runBlockInLoop(ActionDefinition $action, CollectionInterface $loopItems, RecipeVariablesContainer $recipeVariables) : array
     {
         $recipeIterationVariables = new MixedCollection();
-        $actionResults = new MixedCollection();
+        $iterationResults = [];
 
         foreach ($loopItems as $key => $value) {
             $blockVariablesContainer = $recipeVariables->makeWithScopeVariables($this->generateLoopVariables($key, $value));
@@ -98,15 +102,15 @@ class ActionParser extends ParserBase
             if ($this->evaluateWhenCondition($action->getWhenExpression(), $scopeVariables)) {
                 $executionMethodResult = $this->methodExecutor->runMethod($action->getMethod(), $scopeVariables);
                 $recipeIterationVariables->add($key, $this->generateMethodExecutionResultVariables($executionMethodResult));
-                $actionResults->add($key, new ActionResult($executionMethodResult->isSuccess(), true, $action));
+                $iterationResults[] = new IterationResult(true, $executionMethodResult->isSuccess());
             } else {
-                $actionResults->add($key, new ActionResult(true, false, $action));
+                $iterationResults[] = new IterationResult(false, true);
             }
         }
 
         $this->registerVariableIfNecessary($recipeVariables, $action, $recipeIterationVariables);
 
-        return $actionResults;
+        return $iterationResults;
     }
 
     private function getVariablesFromMethodExecutionResultJson(ExecutionResult $result) : MixedCollection

@@ -2,14 +2,14 @@
 
 namespace RecipeRunner\RecipeRunner\Setup;
 
-use RecipeRunner\RecipeRunner\Action\ActionParser;
+use RecipeRunner\RecipeRunner\Block\Action\ActionParser;
 use RecipeRunner\RecipeRunner\Adapter\Expression\SymfonyExpressionLanguage;
 use RecipeRunner\RecipeRunner\IO\IOInterface;
 use RecipeRunner\RecipeRunner\IO\NullIO;
 use RecipeRunner\RecipeRunner\Module\BuiltIn\EssentialModule;
 use RecipeRunner\RecipeRunner\Module\ModuleMethodExecutor;
 use RecipeRunner\RecipeRunner\Recipe\RecipeParser;
-use RecipeRunner\RecipeRunner\Step\StepParser;
+use RecipeRunner\RecipeRunner\Block\Step\StepParser;
 use Yosymfony\Collection\CollectionInterface;
 use Yosymfony\Collection\MixedCollection;
 

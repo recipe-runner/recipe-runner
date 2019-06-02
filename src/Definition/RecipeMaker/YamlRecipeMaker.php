@@ -22,6 +22,8 @@ use Yosymfony\Collection\MixedCollection;
 
 /**
  * Makes a recipe from a YAML string.
+ *
+ * @author Víctor Puertas <vpgugr@gmail.com>
  */
 class YamlRecipeMaker
 {
@@ -72,7 +74,9 @@ class YamlRecipeMaker
         foreach ($steps as $key => $step) {
             $step = new MixedCollection($step);
             $name = $step->getOrDefault('name', sprintf('Step: %s', $key));
-            $stepDefinition = new StepDefinition($name, $this->readActions($step));
+            $id = $this->generateId('step');
+            $stepDefinition = new StepDefinition($id, $this->readActions($step));
+            $stepDefinition->setName($name);
             
             $stepDefinition->setWhenExpression($this->readWhenExpression($step))
                 ->setLoopExpression($this->readLoopExpression($step));
@@ -92,8 +96,10 @@ class YamlRecipeMaker
             $action = new MixedCollection($action);
 
             $name = $action->getOrDefault('name', sprintf('Action: %s', $key));
+            $id = $this->generateId('step');
 
-            $actionDefinition = new ActionDefinition($name, $this->readMethod($action));
+            $actionDefinition = new ActionDefinition($id, $this->readMethod($action));
+            $actionDefinition->setName($name);
             $actionDefinition->setWhenExpression($this->readWhenExpression($action))
                 ->setLoopExpression($this->readLoopExpression($action))
                 ->setVariableName($this->readActionRegister($action));
@@ -172,5 +178,10 @@ class YamlRecipeMaker
         }
 
         return $result;
+    }
+
+    private function generateId(string $prefix): string
+    {
+        return \uniqid($prefix, true);
     }
 }

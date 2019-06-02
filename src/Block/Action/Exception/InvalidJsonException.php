@@ -9,13 +9,15 @@
  * file that was distributed with this source code.
  */
 
-namespace RecipeRunner\RecipeRunner\Action\Exception;
+namespace RecipeRunner\RecipeRunner\Block\Action\Exception;
 
 use Exception;
 use RuntimeException;
 
 /**
+ * Exception that is thrown when the execution of a method returns a bad formed JSON string.
  *
+ * @author Víctor Puertas <vpgugr@gmail.com>
  */
 class InvalidJsonException extends RuntimeException
 {

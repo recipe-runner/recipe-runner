@@ -15,7 +15,7 @@ use RecipeRunner\RecipeRunner\Definition\RecipeDefinition;
 use RecipeRunner\RecipeRunner\IO\IOAwareInterface;
 use RecipeRunner\RecipeRunner\IO\IOTrait;
 use RecipeRunner\RecipeRunner\RecipeVariablesContainer;
-use RecipeRunner\RecipeRunner\Step\StepParser;
+use RecipeRunner\RecipeRunner\Block\Step\StepParser;
 use Yosymfony\Collection\CollectionInterface;
 use Yosymfony\Collection\MixedCollection;
 
@@ -42,19 +42,20 @@ class RecipeParser implements IOAwareInterface
      * @param RecipeDefinition $recipe The recipe definition.
      * @param CollectionInterface $recipeVariables Collection of variables available during the process.
      *
-     * @return StepResult[]
+     * @return BlockResult[] List of block result from steps and actions.
      */
     public function parse(RecipeDefinition $recipe, CollectionInterface $recipeVariables): CollectionInterface
     {
-        $this->getIO()->write("Parsing recipe \"{$recipe->getName()}\".");
+        $blockResults = [];
 
         $stepResults = new MixedCollection();
         $recipeVariablesContainer = new RecipeVariablesContainer($recipeVariables->copy());
 
-        foreach ($recipe->getStepDefinitions() as $key => $step) {
-            $stepResults->add($key, $this->stepParser->parse($step, $recipeVariablesContainer));
+        foreach ($recipe->getStepDefinitions() as $step) {
+            $stepBlockCollection = $this->stepParser->parse($step, $recipeVariablesContainer);
+            $blockResults = \array_merge($blockResults, $stepBlockCollection->all());
         }
 
-        return $stepResults;
+        return new MixedCollection($blockResults);
     }
 }
