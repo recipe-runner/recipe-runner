@@ -12,15 +12,11 @@
 namespace RecipeRunner\RecipeRunner\Block;
 
 use RecipeRunner\RecipeRunner\Expression\ExpressionResolverInterface;
-use RecipeRunner\RecipeRunner\IO\IOAwareInterface;
-use RecipeRunner\RecipeRunner\IO\IOTrait;
 use Yosymfony\Collection\CollectionInterface;
 use Yosymfony\Collection\MixedCollection;
 
-class ParserBase implements IOAwareInterface
+class ParserBase
 {
-    use IOTrait;
-
     /** @var ExpressionResolverInterface */
     protected $expressionResolver;
 

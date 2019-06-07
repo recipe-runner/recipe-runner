@@ -12,7 +12,7 @@
 namespace RecipeRunner\RecipeRunner\Module;
 
 use RecipeRunner\RecipeRunner\Expression\ExpressionResolverInterface;
-use RecipeRunner\RecipeRunner\IO\IOAwareInterface;
+use RecipeRunner\RecipeRunner\IO\IOInterface;
 use RecipeRunner\RecipeRunner\Module\Invocation\ExecutionResult;
 use RecipeRunner\RecipeRunner\Module\Invocation\Method;
 use Yosymfony\Collection\CollectionInterface;
@@ -20,7 +20,7 @@ use Yosymfony\Collection\CollectionInterface;
 /**
  * Interface for all modules.
  */
-interface ModuleInterface extends IOAwareInterface
+interface ModuleInterface
 {
     /**
      * Checks if the method belong to a module.
@@ -45,4 +45,13 @@ interface ModuleInterface extends IOAwareInterface
      * @param ExpressionResolverInterface $expressionResolver
      */
     public function setExpressionResolver(ExpressionResolverInterface $expressionResolver) : void;
+
+    /**
+     * Sets the IO.
+     *
+     * @param IOInterface $io
+     *
+     * @return void
+     */
+    public function setIO(IOInterface $io): void;
 }

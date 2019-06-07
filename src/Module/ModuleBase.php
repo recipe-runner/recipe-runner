@@ -12,19 +12,21 @@
 namespace RecipeRunner\RecipeRunner\Module;
 
 use RecipeRunner\RecipeRunner\Expression\ExpressionResolverInterface;
-use RecipeRunner\RecipeRunner\IO\IOTrait;
+use RecipeRunner\RecipeRunner\IO\IOInterface;
+use RecipeRunner\RecipeRunner\IO\NullIO;
 use RecipeRunner\RecipeRunner\Module\Invocation\ExecutionResult;
 use RecipeRunner\RecipeRunner\Module\Invocation\Method;
 use Yosymfony\Collection\CollectionInterface;
 use Yosymfony\Collection\MixedCollection;
 
 /**
- * Base class for modules providing run and check method.
+ * Base class for modules providing run and check methods.
  */
 abstract class ModuleBase implements ModuleInterface
 {
-    use IOTrait;
-    
+    /** @var IOInterface */
+    protected $io;
+
     /** @var MixedCollection */
     protected $methods;
 
@@ -36,6 +38,7 @@ abstract class ModuleBase implements ModuleInterface
      */
     public function __construct()
     {
+        $io = new NullIO();
         $this->methods = new MixedCollection();
     }
 
@@ -53,6 +56,11 @@ abstract class ModuleBase implements ModuleInterface
     public function setExpressionResolver(ExpressionResolverInterface $expressionResolver) : void
     {
         $this->expressionResolver = $expressionResolver;
+    }
+
+    public function setIO(IOInterface $io): void
+    {
+        $this->io = $io;
     }
 
     /**

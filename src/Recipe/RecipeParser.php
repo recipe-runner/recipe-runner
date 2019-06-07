@@ -13,16 +13,13 @@ namespace RecipeRunner\RecipeRunner\Recipe;
 
 use RecipeRunner\RecipeRunner\Definition\RecipeDefinition;
 use RecipeRunner\RecipeRunner\IO\IOAwareInterface;
-use RecipeRunner\RecipeRunner\IO\IOTrait;
 use RecipeRunner\RecipeRunner\RecipeVariablesContainer;
 use RecipeRunner\RecipeRunner\Block\Step\StepParser;
 use Yosymfony\Collection\CollectionInterface;
 use Yosymfony\Collection\MixedCollection;
 
-class RecipeParser implements IOAwareInterface
+class RecipeParser
 {
-    use IOTrait;
-    
     /** @var StepParser */
     private $stepParser;
 

@@ -36,12 +36,8 @@ class QuickStart
         $expressionResolver = new SymfonyExpressionLanguage();
         $methodExecutor = new ModuleMethodExecutor($finalModules, $expressionResolver, $io);
         $actionParser = new ActionParser($expressionResolver, $methodExecutor);
-        $actionParser->setIO($io);
         $stepParser = new StepParser($actionParser, $expressionResolver);
-        $stepParser->setIO($io);
-        
         $recipeParser = new RecipeParser($stepParser);
-        $recipeParser->setIO($io);
 
         return $recipeParser;
     }
