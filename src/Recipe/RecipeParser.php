@@ -12,7 +12,6 @@
 namespace RecipeRunner\RecipeRunner\Recipe;
 
 use RecipeRunner\RecipeRunner\Definition\RecipeDefinition;
-use RecipeRunner\RecipeRunner\IO\IOAwareInterface;
 use RecipeRunner\RecipeRunner\RecipeVariablesContainer;
 use RecipeRunner\RecipeRunner\Block\Step\StepParser;
 use Yosymfony\Collection\CollectionInterface;

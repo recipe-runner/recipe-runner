@@ -150,6 +150,18 @@ class StepParserTest extends TestCase
         $this->assertEquals('Hi The name was "Hi Víctor"', $finalMessage);
     }
 
+    public function testParseMustReturnAListOfBlockResultsOneFromStepAlongWithBlockResultsFromItsActions(): void
+    {
+        $method1 = $this->createMethodInvocation('hi_you', ['name' => 'Víctor']);
+        $method2 = $this->createMethodInvocation('hi_you', ['name' => 'Jack']);
+        $step = $this->createStepWithTwoActions($method1, $method2);
+
+        $blockResults = $this->stepParser->parse($step, $this->recipeVariables);
+
+        $this->assertContainsOnlyInstancesOf(BlockResult::class, $blockResults);
+        $this->assertCount(3, $blockResults);
+    }
+
     private function createStepWithAction(Method $method, ?string $registerVariable = null): StepDefinition
     {
         $action = new ActionDefinition($this->actionId1, $method);
