@@ -1,6 +1,5 @@
 # Recipe Runner
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/recipe-runner/recipe-runner.svg?style=flat-square)](https://packagist.org/packages/recipe-runner/recipe-runner)
 [![Build Status](https://img.shields.io/travis/recipe-runner/recipe-runner/master.svg?style=flat-square)](https://travis-ci.org/recipe-runner/recipe-runner)
 [![Build status](https://ci.appveyor.com/api/projects/status/jr71nwqnqa5p1gd4?svg=true)](https://ci.appveyor.com/project/yosymfony/recipe-runner)
 
