@@ -2,14 +2,15 @@
 
 namespace RecipeRunner\RecipeRunner\Setup;
 
-use RecipeRunner\RecipeRunner\Block\Action\ActionParser;
 use RecipeRunner\RecipeRunner\Adapter\Expression\SymfonyExpressionLanguage;
+use RecipeRunner\RecipeRunner\Block\Action\ActionParser;
+use RecipeRunner\RecipeRunner\Block\BlockCommonOperation;
+use RecipeRunner\RecipeRunner\Block\Step\StepParser;
 use RecipeRunner\RecipeRunner\IO\IOInterface;
 use RecipeRunner\RecipeRunner\IO\NullIO;
 use RecipeRunner\RecipeRunner\Module\BuiltIn\EssentialModule;
 use RecipeRunner\RecipeRunner\Module\ModuleMethodExecutor;
 use RecipeRunner\RecipeRunner\Recipe\RecipeParser;
-use RecipeRunner\RecipeRunner\Block\Step\StepParser;
 use Yosymfony\Collection\CollectionInterface;
 use Yosymfony\Collection\MixedCollection;
 
@@ -34,9 +35,10 @@ class QuickStart
         $io = $io ?? new NullIO();
         $finalModules = self::composeListOfModules($modules);
         $expressionResolver = new SymfonyExpressionLanguage();
+        $blockCommonOperation = new BlockCommonOperation($expressionResolver);
         $methodExecutor = new ModuleMethodExecutor($finalModules, $expressionResolver, $io);
-        $actionParser = new ActionParser($expressionResolver, $methodExecutor);
-        $stepParser = new StepParser($actionParser, $expressionResolver);
+        $actionParser = new ActionParser($blockCommonOperation, $methodExecutor);
+        $stepParser = new StepParser($actionParser, $blockCommonOperation);
         $recipeParser = new RecipeParser($stepParser);
 
         return $recipeParser;

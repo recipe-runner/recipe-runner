@@ -12,12 +12,12 @@
 namespace RecipeRunner\RecipeRunner\Block\Step;
 
 use RecipeRunner\RecipeRunner\Block\Action\ActionParser;
+use RecipeRunner\RecipeRunner\Block\BlockCommonOperation;
 use RecipeRunner\RecipeRunner\Block\BlockResult;
 use RecipeRunner\RecipeRunner\Block\IterationResult;
 use RecipeRunner\RecipeRunner\Block\ParserBase;
 use RecipeRunner\RecipeRunner\Block\Step\StepResult;
 use RecipeRunner\RecipeRunner\Definition\StepDefinition;
-use RecipeRunner\RecipeRunner\Expression\ExpressionResolverInterface;
 use RecipeRunner\RecipeRunner\RecipeVariablesContainer;
 use Yosymfony\Collection\CollectionInterface;
 use Yosymfony\Collection\MixedCollection;
@@ -27,8 +27,11 @@ use Yosymfony\Collection\MixedCollection;
  *
  * @author Víctor Puertas <vpgugr@gmail.com>
  */
-class StepParser extends ParserBase
+class StepParser
 {
+    /** @var BlockCommonOperation */
+    private $blockCommonOperation;
+
     /** @var ActionParser */
     private $actionParser;
 
@@ -39,13 +42,12 @@ class StepParser extends ParserBase
      * Constructor.
      *
      * @param ActionParser $actionParser
-     * @param ExpressionResolverInterface $expressionResolver
+     * @param BlockCommonOperation $blockCommonOperation
      */
-    public function __construct(ActionParser $actionParser, ExpressionResolverInterface $expressionResolver)
+    public function __construct(ActionParser $actionParser, BlockCommonOperation $blockCommonOperation)
     {
-        parent::__construct($expressionResolver);
-
         $this->actionParser = $actionParser;
+        $this->blockCommonOperation = $blockCommonOperation;
     }
 
     /**
@@ -66,7 +68,7 @@ class StepParser extends ParserBase
             return new MixedCollection($this->blockResults);
         }
 
-        $loopItems = $this->evaluateLoopExpressionIfItIsString($loopExpression, $recipeVariables->getScopeVariables());
+        $loopItems = $this->blockCommonOperation->evaluateLoopExpressionIfItIsString($loopExpression, $recipeVariables->getScopeVariables());
         
         $iterationResults = $this->runBlockInLoop($step, $loopItems, $recipeVariables);
 
@@ -77,7 +79,7 @@ class StepParser extends ParserBase
 
     private function runBlock(StepDefinition $step, RecipeVariablesContainer $recipeVariables, int $iterationNumber) : IterationResult
     {
-        if (!$this->evaluateWhenCondition($step->getWhenExpression(), $recipeVariables->getScopeVariables())) {
+        if (!$this->blockCommonOperation->evaluateWhenCondition($step->getWhenExpression(), $recipeVariables->getScopeVariables())) {
             return new IterationResult(false, true);
         }
 
@@ -95,7 +97,7 @@ class StepParser extends ParserBase
         $iterationNumber = 0;
 
         foreach ($loopItems as $key => $value) {
-            $blockVariablesContainer = $recipeVariables->makeWithScopeVariables($this->generateLoopVariables($key, $value, 'step_loop'));
+            $blockVariablesContainer = $recipeVariables->makeWithScopeVariables($this->blockCommonOperation->generateLoopVariables($key, $value, 'step_loop'));
 
             $iterationResults[] = $this->runBlock($step, $blockVariablesContainer, $iterationNumber++);
         }

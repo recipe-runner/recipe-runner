@@ -12,11 +12,11 @@
 namespace RecipeRunner\RecipeRunner\Block\Action;
 
 use RecipeRunner\RecipeRunner\Block\Action\Exception\InvalidJsonException;
+use RecipeRunner\RecipeRunner\Block\BlockCommonOperation;
 use RecipeRunner\RecipeRunner\Block\BlockResult;
 use RecipeRunner\RecipeRunner\Block\IterationResult;
 use RecipeRunner\RecipeRunner\Block\ParserBase;
 use RecipeRunner\RecipeRunner\Definition\ActionDefinition;
-use RecipeRunner\RecipeRunner\Expression\ExpressionResolverInterface;
 use RecipeRunner\RecipeRunner\Module\Invocation\ExecutionResult;
 use RecipeRunner\RecipeRunner\Module\ModuleMethodExecutor;
 use RecipeRunner\RecipeRunner\RecipeVariablesContainer;
@@ -28,8 +28,11 @@ use Yosymfony\Collection\MixedCollection;
  *
  * @author Víctor Puertas <vpgugr@gmail.com>
  */
-class ActionParser extends ParserBase
+class ActionParser
 {
+    /** @var BlockCommonOperation */
+    private $blockCommonOperation;
+
     /** @var ModuleMethodExecutor */
     private $methodExecutor;
 
@@ -39,13 +42,12 @@ class ActionParser extends ParserBase
     /**
      * Constructor.
      *
-     * @param ExpressionResolverInterface $expressionResolver
+     * @param BlockCommonOperation $blockCommonOperation
      * @param ModuleMethodExecutor $methodExecutor
      */
-    public function __construct(ExpressionResolverInterface $expressionResolver, ModuleMethodExecutor $methodExecutor)
+    public function __construct(BlockCommonOperation $blockCommonOperation, ModuleMethodExecutor $methodExecutor)
     {
-        parent::__construct($expressionResolver);
-
+        $this->blockCommonOperation = $blockCommonOperation;
         $this->methodExecutor = $methodExecutor;
     }
 
@@ -67,7 +69,7 @@ class ActionParser extends ParserBase
             return new BlockResult($action->getId(), new MixedCollection([$iterationResult]));
         }
 
-        $loopItems = $this->evaluateLoopExpressionIfItIsString($loopExpression, $recipeVariables->getScopeVariables());
+        $loopItems = $this->blockCommonOperation->evaluateLoopExpressionIfItIsString($loopExpression, $recipeVariables->getScopeVariables());
         
         $iterationResults = $this->runBlockInLoop($action, $loopItems, $recipeVariables);
 
@@ -76,7 +78,7 @@ class ActionParser extends ParserBase
 
     private function runBlock(ActionDefinition $action, RecipeVariablesContainer $recipeVariables) : IterationResult
     {
-        if (!$this->evaluateWhenCondition($action->getWhenExpression(), $recipeVariables->getScopeVariables())) {
+        if (!$this->blockCommonOperation->evaluateWhenCondition($action->getWhenExpression(), $recipeVariables->getScopeVariables())) {
             return new IterationResult(false, true);
         }
 
@@ -96,10 +98,10 @@ class ActionParser extends ParserBase
         $iterationResults = [];
 
         foreach ($loopItems as $key => $value) {
-            $blockVariablesContainer = $recipeVariables->makeWithScopeVariables($this->generateLoopVariables($key, $value));
+            $blockVariablesContainer = $recipeVariables->makeWithScopeVariables($this->blockCommonOperation->generateLoopVariables($key, $value));
             $scopeVariables = $blockVariablesContainer->getScopeVariables();
             
-            if ($this->evaluateWhenCondition($action->getWhenExpression(), $scopeVariables)) {
+            if ($this->blockCommonOperation->evaluateWhenCondition($action->getWhenExpression(), $scopeVariables)) {
                 $executionMethodResult = $this->methodExecutor->runMethod($action->getMethod(), $scopeVariables);
                 $recipeIterationVariables->add($key, $this->generateMethodExecutionResultVariables($executionMethodResult));
                 $iterationResults[] = new IterationResult(true, $executionMethodResult->isSuccess());

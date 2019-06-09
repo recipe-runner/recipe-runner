@@ -14,6 +14,7 @@ namespace RecipeRunner\RecipeRunner\Test\Block\Step;
 use PHPUnit\Framework\TestCase;
 use RecipeRunner\RecipeRunner\Adapter\Expression\SymfonyExpressionLanguage;
 use RecipeRunner\RecipeRunner\Block\Action\ActionParser;
+use RecipeRunner\RecipeRunner\Block\BlockCommonOperation;
 use RecipeRunner\RecipeRunner\Block\BlockResult;
 use RecipeRunner\RecipeRunner\Block\Step\StepParser;
 use RecipeRunner\RecipeRunner\Definition\ActionDefinition;
@@ -43,9 +44,10 @@ class StepParserTest extends TestCase
         $modules = new MixedCollection([$this->createFakeModule()]);
         $expressionResolver = new SymfonyExpressionLanguage();
         $moduleExecutor = new ModuleMethodExecutor($modules, $expressionResolver, new NullIO());
-        $actionParser = new ActionParser($expressionResolver, $moduleExecutor);
+        $blockCommonOperation = new BlockCommonOperation($expressionResolver);
+        $actionParser = new ActionParser($blockCommonOperation, $moduleExecutor);
 
-        $this->stepParser = new StepParser($actionParser, $expressionResolver);
+        $this->stepParser = new StepParser($actionParser, $blockCommonOperation);
         $this->recipeVariables = new RecipeVariablesContainer(new MixedCollection());
     }
 

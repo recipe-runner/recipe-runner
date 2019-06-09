@@ -15,7 +15,7 @@ use RecipeRunner\RecipeRunner\Expression\ExpressionResolverInterface;
 use Yosymfony\Collection\CollectionInterface;
 use Yosymfony\Collection\MixedCollection;
 
-class ParserBase
+class BlockCommonOperation
 {
     /** @var ExpressionResolverInterface */
     protected $expressionResolver;
@@ -25,12 +25,21 @@ class ParserBase
      *
      * @param ExpressionResolverInterface $expressionResolver
      */
-    protected function __construct(ExpressionResolverInterface $expressionResolver)
+    public function __construct(ExpressionResolverInterface $expressionResolver)
     {
         $this->expressionResolver = $expressionResolver;
     }
 
-    protected function generateLoopVariables($index, $value, string $rootItemName = 'loop') : CollectionInterface
+    /**
+     * Returns a collection with the variables of a loop.
+     *
+     * @param mixed $index
+     * @param mixed $value
+     * @param string $rootItemName
+     *
+     * @return CollectionInterface
+     */
+    public function generateLoopVariables($index, $value, string $rootItemName = 'loop') : CollectionInterface
     {
         return new MixedCollection([
             $rootItemName => [
@@ -40,7 +49,15 @@ class ParserBase
         ]);
     }
 
-    protected function evaluateWhenCondition(string $expression, CollectionInterface $recipeVariables) : bool
+    /**
+     * Evaluates a "When" expression.
+     *
+     * @param string $expression
+     * @param CollectionInterface $recipeVariables
+     *
+     * @return bool
+     */
+    public function evaluateWhenCondition(string $expression, CollectionInterface $recipeVariables) : bool
     {
         if ($expression == '') {
             return true;
@@ -49,7 +66,15 @@ class ParserBase
         return $this->expressionResolver->resolveBooleanExpression($expression, $recipeVariables);
     }
 
-    protected function evaluateLoopExpressionIfItIsString($loopExpression, CollectionInterface $recipeVariables) : CollectionInterface
+    /**
+     * Evaluates a loop expression if it is a string.
+     *
+     * @param string $expression
+     * @param CollectionInterface $recipeVariables
+     *
+     * @return bool
+     */
+    public function evaluateLoopExpressionIfItIsString($loopExpression, CollectionInterface $recipeVariables) : CollectionInterface
     {
         if (\is_string($loopExpression)) {
             return $this->expressionResolver->resolveCollectionExpression($loopExpression, $recipeVariables);

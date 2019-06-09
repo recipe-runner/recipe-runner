@@ -12,8 +12,9 @@
 namespace RecipeRunner\RecipeRunner\Test\Block\Action;
 
 use PHPUnit\Framework\TestCase;
-use RecipeRunner\RecipeRunner\Block\Action\ActionParser;
 use RecipeRunner\RecipeRunner\Adapter\Expression\SymfonyExpressionLanguage;
+use RecipeRunner\RecipeRunner\Block\Action\ActionParser;
+use RecipeRunner\RecipeRunner\Block\BlockCommonOperation;
 use RecipeRunner\RecipeRunner\Definition\ActionDefinition;
 use RecipeRunner\RecipeRunner\IO\NullIO;
 use RecipeRunner\RecipeRunner\Module\Invocation\ExecutionResult;
@@ -37,7 +38,8 @@ class ActionParserTest extends TestCase
         $modules = new MixedCollection([$this->createFakeModule()]);
         $expressionResolver = new SymfonyExpressionLanguage();
         $moduleExecutor = new ModuleMethodExecutor($modules, $expressionResolver, new NullIO());
-        $this->actionParser = new ActionParser($expressionResolver, $moduleExecutor);
+        $blockCommonOperation = new BlockCommonOperation($expressionResolver);
+        $this->actionParser = new ActionParser($blockCommonOperation, $moduleExecutor);
         $this->recipeVariables = new RecipeVariablesContainer(new MixedCollection());
     }
 
