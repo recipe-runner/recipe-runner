@@ -19,6 +19,8 @@ use Yosymfony\Collection\CollectionInterface;
 
 /**
  * Interface for all modules.
+ *
+ * @author Víctor Puertas <vpgugr@gmail.com>
  */
 interface ModuleInterface
 {
@@ -45,6 +47,13 @@ interface ModuleInterface
      * @param ExpressionResolverInterface $expressionResolver
      */
     public function setExpressionResolver(ExpressionResolverInterface $expressionResolver) : void;
+
+    /**
+     * Returns the IO instance.
+     *
+     * @return IOInterface;
+     */
+    public function getIO(): IOInterface;
 
     /**
      * Sets the IO.

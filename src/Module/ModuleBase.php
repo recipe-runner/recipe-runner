@@ -21,6 +21,8 @@ use Yosymfony\Collection\MixedCollection;
 
 /**
  * Base class for modules providing run and check methods.
+ *
+ * @author Víctor Puertas <vpgugr@gmail.com>
  */
 abstract class ModuleBase implements ModuleInterface
 {
@@ -58,6 +60,17 @@ abstract class ModuleBase implements ModuleInterface
         $this->expressionResolver = $expressionResolver;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function getIO(): IOInterface
+    {
+        return $this->io;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function setIO(IOInterface $io): void
     {
         $this->io = $io;
