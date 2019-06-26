@@ -15,7 +15,6 @@ use RecipeRunner\RecipeRunner\Block\Action\Exception\InvalidJsonException;
 use RecipeRunner\RecipeRunner\Block\BlockCommonOperation;
 use RecipeRunner\RecipeRunner\Block\BlockResult;
 use RecipeRunner\RecipeRunner\Block\IterationResult;
-use RecipeRunner\RecipeRunner\Block\ParserBase;
 use RecipeRunner\RecipeRunner\Definition\ActionDefinition;
 use RecipeRunner\RecipeRunner\Module\Invocation\ExecutionResult;
 use RecipeRunner\RecipeRunner\Module\ModuleMethodExecutor;
@@ -28,7 +27,7 @@ use Yosymfony\Collection\MixedCollection;
  *
  * @author Víctor Puertas <vpgugr@gmail.com>
  */
-class ActionParser
+final class ActionParser implements ActionParserInterface
 {
     /** @var BlockCommonOperation */
     private $blockCommonOperation;
@@ -52,11 +51,9 @@ class ActionParser
     }
 
     /**
-     * Parsers an action.
+     * {@inheritdoc}
      *
-     * @return BlockResult
-     *
-     * @throws InvalidJsonException If method execution returns a bad JSON.
+     * @throws InvalidJsonException If the method execution returns an invalid JSON.
      */
     public function parse(ActionDefinition $action, RecipeVariablesContainer $recipeVariables): BlockResult
     {

@@ -11,11 +11,10 @@
 
 namespace RecipeRunner\RecipeRunner\Block\Step;
 
-use RecipeRunner\RecipeRunner\Block\Action\ActionParser;
+use RecipeRunner\RecipeRunner\Block\Action\ActionParserInterface;
 use RecipeRunner\RecipeRunner\Block\BlockCommonOperation;
 use RecipeRunner\RecipeRunner\Block\BlockResult;
 use RecipeRunner\RecipeRunner\Block\IterationResult;
-use RecipeRunner\RecipeRunner\Block\ParserBase;
 use RecipeRunner\RecipeRunner\Block\Step\StepResult;
 use RecipeRunner\RecipeRunner\Definition\StepDefinition;
 use RecipeRunner\RecipeRunner\RecipeVariablesContainer;
@@ -27,7 +26,7 @@ use Yosymfony\Collection\MixedCollection;
  *
  * @author Víctor Puertas <vpgugr@gmail.com>
  */
-class StepParser
+final class StepParser implements StepParserInterface
 {
     /** @var BlockCommonOperation */
     private $blockCommonOperation;
@@ -44,16 +43,14 @@ class StepParser
      * @param ActionParser $actionParser
      * @param BlockCommonOperation $blockCommonOperation
      */
-    public function __construct(ActionParser $actionParser, BlockCommonOperation $blockCommonOperation)
+    public function __construct(ActionParserInterface $actionParser, BlockCommonOperation $blockCommonOperation)
     {
         $this->actionParser = $actionParser;
         $this->blockCommonOperation = $blockCommonOperation;
     }
 
     /**
-     * Run a step definition.
-     *
-     * @return BlockResult[] List of block results from both step and step's actions.
+     * {@inheritdoc}
      */
     public function parse(StepDefinition $step, RecipeVariablesContainer $recipeVariables): CollectionInterface
     {

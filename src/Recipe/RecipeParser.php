@@ -11,9 +11,9 @@
 
 namespace RecipeRunner\RecipeRunner\Recipe;
 
+use RecipeRunner\RecipeRunner\Block\Step\StepParserInterface;
 use RecipeRunner\RecipeRunner\Definition\RecipeDefinition;
 use RecipeRunner\RecipeRunner\RecipeVariablesContainer;
-use RecipeRunner\RecipeRunner\Block\Step\StepParser;
 use Yosymfony\Collection\CollectionInterface;
 use Yosymfony\Collection\MixedCollection;
 
@@ -27,7 +27,7 @@ class RecipeParser
      *
      * @param StepParser $stepParser The step parser.
      */
-    public function __construct(StepParser $stepParser)
+    public function __construct(StepParserInterface $stepParser)
     {
         $this->stepParser = $stepParser;
     }

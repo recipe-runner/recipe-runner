@@ -13,7 +13,7 @@ namespace RecipeRunner\RecipeRunner\Test\Recipe;
 
 use PHPUnit\Framework\TestCase;
 use RecipeRunner\RecipeRunner\Block\BlockResult;
-use RecipeRunner\RecipeRunner\Block\Step\StepParser;
+use RecipeRunner\RecipeRunner\Block\Step\StepParserInterface;
 use RecipeRunner\RecipeRunner\Definition\RecipeDefinition;
 use RecipeRunner\RecipeRunner\Definition\StepDefinition;
 use RecipeRunner\RecipeRunner\Recipe\RecipeParser;
@@ -31,7 +31,7 @@ class RecipeParserTest extends TestCase
         $stepDefMock = $this->getMockBuilder(StepDefinition::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $stepParserMock = $this->getMockBuilder(StepParser::class)
+        $stepParserMock = $this->getMockBuilder(StepParserInterface::class)
             ->setMethods(['parse'])
             ->disableOriginalConstructor()
             ->getMock();
@@ -57,7 +57,7 @@ class RecipeParserTest extends TestCase
         $stepDefMock = $this->getMockBuilder(StepDefinition::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $stepParserMock = $this->getMockBuilder(StepParser::class)
+        $stepParserMock = $this->getMockBuilder(StepParserInterface::class)
             ->setMethods(['parse'])
             ->disableOriginalConstructor()
             ->getMock();
