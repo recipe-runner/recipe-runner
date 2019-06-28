@@ -22,9 +22,10 @@ composer require recipe-runner/recipe-runner
 
 ```php
 use RecipeRunner\Definition\RecipeMaker;
+use RecipeRunner\RecipeRunner\Recipe\StandardRecipeVariables;
 use RecipeRunner\RecipeRunner\Setup\QuickStart;
 
-$recipeVariables = new MixedCollection();
+$recipeVariables = StandardRecipeVariables::getCollectionOfVariables();
 
 $recipeMaker = new YamlRecipeMaker();
 $recipe = $recipeMaker->makeRecipeFromFile('/path-to-a-recipe.yml');
