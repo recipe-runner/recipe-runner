@@ -44,16 +44,14 @@ class QuickStart
         return $recipeParser;
     }
 
-    private static function composeListOfModules(?CollectionInterface $modules): CollectionInterface
+    private static function composeListOfModules(?CollectionInterface $moduleCollection): CollectionInterface
     {
-        $finalModules = [new EssentialModule()];
+        $finalModuleCollection = new MixedCollection([new EssentialModule()]);
         
-        if ($modules !== null) {
-            foreach ($modules as $module) {
-                $finalModules[] = $module;
-            }
+        if ($moduleCollection !== null) {
+            $finalModuleCollection->addRangeOfValues($moduleCollection);
         }
 
-        return new MixedCollection($finalModules);
+        return $finalModuleCollection;
     }
 }

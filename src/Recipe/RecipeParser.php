@@ -17,7 +17,12 @@ use RecipeRunner\RecipeRunner\RecipeVariablesContainer;
 use Yosymfony\Collection\CollectionInterface;
 use Yosymfony\Collection\MixedCollection;
 
-class RecipeParser
+/**
+ * Recipe parser.
+ *
+ * @author Víctor Puertas <vpgugr@gmail.com>
+ */
+final class RecipeParser implements RecipeParserInterface
 {
     /** @var StepParser */
     private $stepParser;
@@ -25,7 +30,7 @@ class RecipeParser
     /**
      * Constructor.
      *
-     * @param StepParser $stepParser The step parser.
+     * @param StepParserInterface $stepParser The step parser.
      */
     public function __construct(StepParserInterface $stepParser)
     {
@@ -33,25 +38,18 @@ class RecipeParser
     }
 
     /**
-     * Parses a recipe definition.
-     *
-     * @param RecipeDefinition $recipe The recipe definition.
-     * @param CollectionInterface $recipeVariables Collection of variables available during the process.
-     *
-     * @return BlockResult[] List of block result from steps and actions.
+     * {@inheritdoc}
      */
     public function parse(RecipeDefinition $recipe, CollectionInterface $recipeVariables): CollectionInterface
     {
-        $blockResults = [];
-
-        $stepResults = new MixedCollection();
+        $blockResults = new MixedCollection();
         $recipeVariablesContainer = new RecipeVariablesContainer($recipeVariables->copy());
 
         foreach ($recipe->getStepDefinitions() as $step) {
             $stepBlockCollection = $this->stepParser->parse($step, $recipeVariablesContainer);
-            $blockResults = \array_merge($blockResults, $stepBlockCollection->all());
+            $blockResults->addRangeOfValues($stepBlockCollection);
         }
 
-        return new MixedCollection($blockResults);
+        return $blockResults;
     }
 }

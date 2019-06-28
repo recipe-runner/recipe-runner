@@ -33,14 +33,14 @@ class RecipeParserTest extends TestCase
             ->getMock();
         $stepParserMock = $this->getMockBuilder(StepParserInterface::class)
             ->setMethods(['parse'])
-            ->disableOriginalConstructor()
             ->getMock();
         $stepParserMock->expects($this->once())
             ->method('parse')
             ->with(
                 $this->equalTo($stepDefMock),
                 $this->equalTo(new RecipeVariablesContainer($recipeVariables))
-            );
+            )
+            ->willReturn(new MixedCollection());
         $recipeParser = new RecipeParser($stepParserMock);
 
         $recipe = new RecipeDefinition('test recipe', new MixedCollection([$stepDefMock]));
@@ -59,7 +59,6 @@ class RecipeParserTest extends TestCase
             ->getMock();
         $stepParserMock = $this->getMockBuilder(StepParserInterface::class)
             ->setMethods(['parse'])
-            ->disableOriginalConstructor()
             ->getMock();
         $stepParserMock->expects($this->once())
             ->method('parse')
