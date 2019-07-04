@@ -12,7 +12,7 @@
 namespace RecipeRunner\RecipeRunner\Adapter\Expression;
 
 use Exception;
-use RecipeRunner\RecipeRunner\Adapter\Expression\Provider\SystemExpressionLanguageProvider;
+use RecipeRunner\RecipeRunner\Adapter\Expression\Provider\SystemExpressionProvider;
 use RecipeRunner\RecipeRunner\Expression\Exception\ErrorResolvingExpressionException;
 use RecipeRunner\RecipeRunner\Expression\ExpressionResolverInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
@@ -31,7 +31,7 @@ class SymfonyExpressionLanguage implements ExpressionResolverInterface
     public function __construct()
     {
         $this->expressionLanguage = new ExpressionLanguage();
-        $this->expressionLanguage->registerProvider(new SystemExpressionLanguageProvider());
+        $this->expressionLanguage->registerProvider(new SystemExpressionProvider());
     }
 
     /**

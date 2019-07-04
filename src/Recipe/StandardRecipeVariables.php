@@ -5,8 +5,18 @@ namespace RecipeRunner\RecipeRunner\Recipe;
 use Yosymfony\Collection\CollectionInterface;
 use Yosymfony\Collection\MixedCollection;
 
+/**
+ * Standard variables for recipes.
+ *
+ * @author Víctor Puertas <vpgugr@gmail.com>
+ */
 class StandardRecipeVariables
 {
+    /**
+     * Returns a collection with a standard variables.
+     *
+     * @return CollectionInterface
+     */
     public static function getCollectionOfVariables(): CollectionInterface
     {
         return new MixedCollection([
