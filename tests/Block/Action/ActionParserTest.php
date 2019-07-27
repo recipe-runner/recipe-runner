@@ -51,7 +51,7 @@ class ActionParserTest extends TestCase
         
         $result = $this->actionParser->parse($action, $this->recipeVariables);
 
-        $this->assertEquals('Hi Víctor', $this->recipeVariables->getRecipeVariables()->getDot('greetings.message'));
+        $this->assertEquals('Hi Víctor', $this->recipeVariables->getRecipeVariables()->getDot('registered.greetings.message'));
         $this->assertTrue($result->getIterationResultAt(0)->isExecuted());
     }
 
@@ -85,7 +85,7 @@ class ActionParserTest extends TestCase
         
         $result = $this->actionParser->parse($action, $this->recipeVariables);
 
-        $this->assertTrue($this->recipeVariables->getRecipeVariables()->getDot('greetings.success'));
+        $this->assertTrue($this->recipeVariables->getRecipeVariables()->getDot('registered.greetings.success'));
         $this->assertTrue($result->getIterationResultAt(0)->isSuccessful());
     }
 
@@ -100,15 +100,17 @@ class ActionParserTest extends TestCase
 
         $this->assertEquals(2, $result->getNumberOfIterations());
         $this->assertEquals([
-            'greetings_2_times' => [
-                [
-                    'message' => 'Hi Víctor',
-                    'success' => true,
+            'registered' => [
+                'greetings_2_times' => [
+                    [
+                        'message' => 'Hi Víctor',
+                        'success' => true,
+                    ],
+                    [
+                        'message' => 'Hi Víctor',
+                        'success' => true,
+                    ]
                 ],
-                [
-                    'message' => 'Hi Víctor',
-                    'success' => true,
-                ]
             ],
         ], $this->recipeVariables->getRecipeVariables()->toArray());
     }
@@ -124,15 +126,17 @@ class ActionParserTest extends TestCase
 
         $this->assertEquals(2, $result->getNumberOfIterations());
         $this->assertEquals([
-            'greetings_2_times' => [
-                [
-                    'message' => 'Hi Víctor',
-                    'success' => true,
+            'registered' => [
+                'greetings_2_times' => [
+                    [
+                        'message' => 'Hi Víctor',
+                        'success' => true,
+                    ],
+                    [
+                        'message' => 'Hi Víctor',
+                        'success' => true,
+                    ]
                 ],
-                [
-                    'message' => 'Hi Víctor',
-                    'success' => true,
-                ]
             ],
         ], $this->recipeVariables->getRecipeVariables()->toArray());
     }
@@ -147,11 +151,13 @@ class ActionParserTest extends TestCase
         $actionResult = $this->actionParser->parse($action, $this->recipeVariables);
 
         $this->assertEquals([
-            'greetings' => [
-                [
-                    'message' => 'Hi Víctor #1 index: 0',
-                    'success' => true,
-                ]
+            'registered' => [
+                'greetings' => [
+                    [
+                        'message' => 'Hi Víctor #1 index: 0',
+                        'success' => true,
+                    ]
+                ],
             ],
         ], $this->recipeVariables->getRecipeVariables()->toArray());
     }
@@ -170,10 +176,12 @@ class ActionParserTest extends TestCase
         $this->assertFalse($result->getIterationResultAt(0)->isExecuted());
         $this->assertTrue($result->getIterationResultAt(1)->isExecuted());
         $this->assertEquals([
-            'greetings' => [
-                'b' => [
-                    'message' => 'Hi Víctor #2 index: b',
-                    'success' => true,
+            'registered' => [
+                'greetings' => [
+                    'b' => [
+                        'message' => 'Hi Víctor #2 index: b',
+                        'success' => true,
+                    ],
                 ],
             ],
         ], $this->recipeVariables->getRecipeVariables()->toArray());
@@ -188,7 +196,7 @@ class ActionParserTest extends TestCase
         
         $actionResult = $this->actionParser->parse($action, $recipeVariables);
 
-        $this->assertEquals('Hi Víctor from Spain', $recipeVariables->getRecipeVariables()->getDot('greetings.message'));
+        $this->assertEquals('Hi Víctor from Spain', $recipeVariables->getRecipeVariables()->getDot('registered.greetings.message'));
     }
 
     /**

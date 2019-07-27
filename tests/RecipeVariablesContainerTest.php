@@ -17,38 +17,40 @@ use RecipeRunner\RecipeRunner\RecipeVariablesContainer;
 
 class RecipeVariablesContainerTest extends TestCase
 {
+    /** @var RecipeVariablesContainer */
+    private $recipeVariables;
+
+    public function setUp(): void
+    {
+        $this->recipeVariables = new RecipeVariablesContainer(new MixedCollection(['name' => 'Víctor']));
+    }
+    
     public function testGetRecipeVariablesMustReturnRecipeVariables() : void
     {
-        $recipeVariables = new RecipeVariablesContainer(new MixedCollection(['name' => 'Víctor']));
-
-        $this->assertEquals([
-            'name' => 'Víctor',
-        ], $recipeVariables->getRecipeVariables()->toArray());
+        $this->assertTrue($this->recipeVariables->getRecipeVariables()->has('name'));
+        $this->assertEquals('Víctor', $this->recipeVariables->getRecipeVariables()->get('name'));
     }
 
-    public function testRegisterRecipeVariableMustRegisterANewVariable() : void
+    public function testRegisterRecipeVariableMustRegisterANewVariableInRegisteredBucket() : void
     {
-        $recipeVariables = new RecipeVariablesContainer(new MixedCollection(['name' => 'Víctor']));
-        $recipeVariables->registerRecipeVariable('country', 'Spain');
+        $this->recipeVariables->registerRecipeVariable('country', 'Spain');
 
         $this->assertEquals([
             'name' => 'Víctor',
-            'country' => 'Spain',
-        ], $recipeVariables->getRecipeVariables()->toArray());
+            'registered' => [
+                'country' => 'Spain',
+            ],
+        ], $this->recipeVariables->getRecipeVariables()->toArray());
     }
 
     public function testMakeWithScopeVariablesMustReturnAContaiterWithTheScopeVariables() : void
     {
-        $recipeVariables = new RecipeVariablesContainer(new MixedCollection(['name' => 'Víctor']));
-        $scopeVariables = $recipeVariables->makeWithScopeVariables(new MixedCollection(['country' => 'Spain']));
+        $scopeVariables = $this->recipeVariables->makeWithScopeVariables(new MixedCollection(['country' => 'Spain']));
 
         $this->assertEquals([
             'name' => 'Víctor',
             'country' => 'Spain',
+            'registered' => [],
         ], $scopeVariables->getScopeVariables()->toArray());
-
-        $this->assertEquals([
-            'name' => 'Víctor',
-        ], $scopeVariables->getRecipeVariables()->toArray());
     }
 }

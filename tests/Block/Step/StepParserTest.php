@@ -117,9 +117,11 @@ class StepParserTest extends TestCase
         $this->stepParser->parse($step, $this->recipeVariables);
 
         $this->assertEquals([
-            'greetings' => [
-                'message' => 'Hi Víctor #1 index: 0',
-                'success' => true,
+            'registered' => [
+                'greetings' => [
+                    'message' => 'Hi Víctor #1 index: 0',
+                    'success' => true,
+                ],
             ],
         ], $this->recipeVariables->getRecipeVariables()->toArray());
     }
@@ -143,11 +145,11 @@ class StepParserTest extends TestCase
     public function testSecondActionMustHaveAccessToTheVariableRegisteredByTheFirstActionOfTheStep(): void
     {
         $method1 = $this->createMethodInvocation('hi_you', ['name' => 'Víctor']);
-        $method2 = $this->createMethodInvocation('hi_you', ['name' => 'The name was "{{previous["message"]}}"']);
+        $method2 = $this->createMethodInvocation('hi_you', ['name' => 'The name was "{{registered["previous"]["message"]}}"']);
         $step = $this->createStepWithTwoActions($method1, $method2, 'previous', 'final_message');
 
         $result = $this->stepParser->parse($step, $this->recipeVariables);
-        $finalMessage = $this->recipeVariables->getRecipeVariables()->getDot('final_message.message');
+        $finalMessage = $this->recipeVariables->getRecipeVariables()->getDot('registered.final_message.message');
 
         $this->assertEquals('Hi The name was "Hi Víctor"', $finalMessage);
     }

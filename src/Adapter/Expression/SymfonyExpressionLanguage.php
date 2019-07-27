@@ -19,6 +19,11 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Yosymfony\Collection\CollectionInterface;
 use Yosymfony\Collection\MixedCollection;
 
+/**
+ * Expression resolver for Symfony expression language.
+ *
+ * @author Víctor Puertas <vpgugr@gmail.com>
+ */
 class SymfonyExpressionLanguage implements ExpressionResolverInterface
 {
     private const INTERPOLATION_OPEN = '{{';
@@ -39,8 +44,10 @@ class SymfonyExpressionLanguage implements ExpressionResolverInterface
      */
     public function resolveExpression(string $expression, CollectionInterface $variables)
     {
+        $adaptedVariables = $this->ConvertVariableCollectionIntoArrayExpression($variables);
+
         try {
-            return $this->expressionLanguage->evaluate($expression, $variables->toArray());
+            return $this->expressionLanguage->evaluate($expression, $adaptedVariables);
         } catch (Exception $ex) {
             $message = "Error resolving expression: \"{$expression}\". Details: {$ex->getMessage()}";
             throw new ErrorResolvingExpressionException($message, $expression);
@@ -104,5 +111,16 @@ class SymfonyExpressionLanguage implements ExpressionResolverInterface
 
             return \sprintf('%s', $resolved);
         }, $literal);
+    }
+
+    private function ConvertVariableCollectionIntoArrayExpression(CollectionInterface $variables): array
+    {
+        $variablesAsArray = [];
+
+        foreach ($variables->toArray() as $key => $value) {
+            $variablesAsArray[$key] = !\is_array($value) ? $value : new ExpressionArray($value);
+        }
+
+        return $variablesAsArray;
     }
 }
