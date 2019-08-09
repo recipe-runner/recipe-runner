@@ -18,29 +18,42 @@ use Yosymfony\Collection\MixedCollection;
 
 class SystemExpressionProviderTest extends TestCase
 {
-    /** @var SymfonyExpressionLanguage */
-    private $expressionResolver;
-
-    /** @var SystemExpressionProvider */
-    private $provider;
-
-    public function setUp(): void
-    {
-        $this->provider = new SystemExpressionProvider();
-        $this->expressionResolver = new SymfonyExpressionLanguage();
-    }
-
     public function testGetFunctionsMustReturnAllTheFunctionRegistered(): void
     {
-        $this->assertCount(1, $this->provider->getFunctions());
+        $provider = new SystemExpressionProvider();
+
+        $this->assertCount(2, $provider->getFunctions());
     }
 
     public function testEnvMustReturnTheValueOfAnEnvironmentVariable(): void
     {
         \putenv('name=Víctor');
         
-        $result = $this->expressionResolver->resolveStringInterpolation('hi {{env("name")}}', new MixedCollection());
+        $result = SystemExpressionProvider::env('name');
 
-        $this->assertEquals('hi Víctor', $result);
+        $this->assertEquals('Víctor', $result);
+    }
+
+    public function testVersionCompare(): void
+    {
+        $this->assertTrue(SystemExpressionProvider::versionCompare('1.0.0', '>', '0.1.0'));
+        $this->assertTrue(SystemExpressionProvider::versionCompare('1.0.0', '>=', '1.0.0'));
+        $this->assertFalse(SystemExpressionProvider::versionCompare('0.1.0', '>', '1.0.0'));
+
+        $this->assertTrue(SystemExpressionProvider::versionCompare('0.1.0', '<', '1.0.0'));
+        $this->assertFalse(SystemExpressionProvider::versionCompare('1.0.0', '<', '1.0.0'));
+        $this->assertTrue(SystemExpressionProvider::versionCompare('1.0.0', '<=', '1.0.0'));
+
+        $this->assertTrue(SystemExpressionProvider::versionCompare('1.0.0', '>', '1.0.0rc1'));
+        $this->assertTrue(SystemExpressionProvider::versionCompare('1.0.0rc1', '>', '1.0.0b1'));
+    }
+
+    /**
+    * @expectedException InvalidArgumentException
+    * @expectedExceptionMessage Invalid operator "-". Expected: <, <=, >, >=, =, !=.
+    */
+    public function testVersionCompareMustFailWhenInvalidOperator(): void
+    {
+        SystemExpressionProvider::versionCompare('1.0.0', '-', '0.1.0');
     }
 }

@@ -11,6 +11,8 @@
 
 namespace RecipeRunner\RecipeRunner\Adapter\Expression\Provider;
 
+use InvalidArgumentException;
+
 /**
  * Provider for system functions.
  *
@@ -22,6 +24,7 @@ class SystemExpressionProvider extends ExpressionProviderBase
     {
         return [
             $this->createExpressionFunction('env', 'env'),
+            $this->createExpressionFunction('version_compare', 'versionCompare'),
         ];
     }
 
@@ -41,5 +44,25 @@ class SystemExpressionProvider extends ExpressionProviderBase
         }
 
         return $value;
+    }
+
+    /**
+     * Returns Compare two version strings following the pattern "mayor.minor.patch".
+     *
+     * @param string $version1
+     * @param string $operator Operator. Valid values: <, <=, >, >=, =, !=.
+     * @param string $version2
+     *
+     * @return bool True if the relationship is the one specified by the operator, false otherwise.
+     */
+    public static function versionCompare(string $version1, string $operator, string $version2): bool
+    {
+        $version1 = \strtolower($version1);
+        $version2 = \strtolower($version2);
+        try {
+            return \version_compare($version1, $version2, $operator);
+        } catch (\Throwable $th) {
+            throw new InvalidArgumentException("Invalid operator \"$operator\". Expected: <, <=, >, >=, =, !=.");
+        }
     }
 }

@@ -20,10 +20,11 @@ class StandardRecipeVariablesTest extends TestCase
     {
         $collection = StandardRecipeVariables::getCollectionOfVariables();
 
-        $this->assertCount(4, $collection);
+        $this->assertCount(5, $collection);
         $this->assertEquals(PHP_OS_FAMILY, $collection['os_family']);
         $this->assertEquals(DIRECTORY_SEPARATOR, $collection['dir_separator']);
         $this->assertEquals(PATH_SEPARATOR, $collection['path_separator']);
         $this->assertEquals(sys_get_temp_dir(), $collection['temporal_dir']);
+        $this->assertEquals(PHP_VERSION, $collection['php_version']);
     }
 }

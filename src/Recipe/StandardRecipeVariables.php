@@ -24,6 +24,7 @@ class StandardRecipeVariables
             'dir_separator' => DIRECTORY_SEPARATOR,
             'path_separator' => PATH_SEPARATOR,
             'temporal_dir' => sys_get_temp_dir(),
+            'php_version' => PHP_VERSION,
         ]);
     }
 }
