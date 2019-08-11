@@ -36,23 +36,6 @@ interface IOInterface
     const INFINITE_ATTEMPTS = -1;
 
     /**
-     * Is this input means interactive?
-     *
-     * @return bool
-     */
-    public function isInteractive(): bool;
-
-    /**
-     * Write a message to the output.
-     *
-     * @param string|array $messages The message as an array of lines or a single string.
-     * @param bool $newline Whether to add a new line or not.
-     * @param int $verbosity Verbosity level. See VERBOSITY_* constants.
-     */
-    public function write($messages, bool $newline = true, int $verbosity = self::VERBOSITY_NORMAL): void;
-
-
-    /**
      * Asks a question to the user.
      *
      * @param string $question The question to ask.
@@ -108,4 +91,26 @@ interface IOInterface
      * @return array The selected values (the keys of the choices array).
      */
     public function askMultiselectChoice(string $question, array $choices, $default, int $attempts = self::INFINITE_ATTEMPTS): array;
+
+    /**
+     * Is this input means interactive?
+     *
+     * @return bool
+     */
+    public function isInteractive(): bool;
+
+    /**
+     * Creates a new region called section.
+     * Sections let you manipulate the output in advanced ways.
+     */
+    public function createSection(): IOSectionInterface;
+    
+    /**
+     * Write a message to the output.
+     *
+     * @param string|array $messages The message as an array of lines or a single string.
+     * @param bool $newline Whether to add a new line or not.
+     * @param int $verbosity Verbosity level. See VERBOSITY_* constants.
+     */
+    public function write($messages, bool $newline = true, int $verbosity = self::VERBOSITY_NORMAL): void;
 }

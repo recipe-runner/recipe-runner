@@ -12,7 +12,7 @@
 namespace RecipeRunner\RecipeRunner\IO;
 
 /**
- * Non-interactive interface that never writes the output.
+ * Non-interactive implementation of the IO interface that never writes the output.
  *
  * @author Víctor Puertas <vpgugr@gmail.com>
  */
@@ -71,5 +71,13 @@ class NullIO implements IOInterface
     public function askMultiselectChoice(string $question, array $choices, $default, int $attempts = self::INFINITE_ATTEMPTS): array
     {
         return [(string) $default];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createSection(): IOSectionInterface
+    {
+        return new NullIOSection();
     }
 }
