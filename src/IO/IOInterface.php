@@ -98,12 +98,6 @@ interface IOInterface
      * @return bool
      */
     public function isInteractive(): bool;
-
-    /**
-     * Creates a new region called section.
-     * Sections let you manipulate the output in advanced ways.
-     */
-    public function createSection(): IOSectionInterface;
     
     /**
      * Write a message to the output.

@@ -72,12 +72,4 @@ class NullIO implements IOInterface
     {
         return [(string) $default];
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function createSection(): IOSectionInterface
-    {
-        return new NullIOSection();
-    }
 }

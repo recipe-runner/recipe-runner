@@ -12,23 +12,15 @@
 namespace RecipeRunner\RecipeRunner\IO;
 
 /**
- * Non-interactive implementation of IO Section interface that never writes the output.
+ * Interface for creating setions.
  *
  * @author Víctor Puertas <vpgugr@gmail.com>
  */
-class NullIOSection extends NullIO
+interface IOSectionAwareInterface
 {
     /**
-     * {@inheritdoc}
-     */
-    public function clear(): void
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function override($message): void
-    {
-    }
+    * Creates a new region called section.
+    * Sections let you manipulate the output in advanced ways.
+    */
+    public function createSection(): IOSectionInterface;
 }
