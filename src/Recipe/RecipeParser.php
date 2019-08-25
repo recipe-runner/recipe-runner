@@ -24,7 +24,7 @@ use Yosymfony\Collection\MixedCollection;
  */
 final class RecipeParser implements RecipeParserInterface
 {
-    /** @var StepParser */
+    /** @var StepParserInterface */
     private $stepParser;
 
     /**

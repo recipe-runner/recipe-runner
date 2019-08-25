@@ -31,7 +31,7 @@ final class StepParser implements StepParserInterface
     /** @var BlockCommonOperation */
     private $blockCommonOperation;
 
-    /** @var ActionParser */
+    /** @var ActionParserInterface */
     private $actionParser;
 
     /** @var BlockResult[] */
@@ -40,7 +40,7 @@ final class StepParser implements StepParserInterface
     /**
      * Constructor.
      *
-     * @param ActionParser $actionParser
+     * @param ActionParserInterface $actionParser
      * @param BlockCommonOperation $blockCommonOperation
      */
     public function __construct(ActionParserInterface $actionParser, BlockCommonOperation $blockCommonOperation)
@@ -77,12 +77,13 @@ final class StepParser implements StepParserInterface
     private function runBlock(StepDefinition $step, RecipeVariablesContainer $recipeVariables, int $iterationNumber) : IterationResult
     {
         if (!$this->blockCommonOperation->evaluateWhenCondition($step->getWhenExpression(), $recipeVariables->getScopeVariables())) {
-            return new IterationResult(false, true);
+            return new IterationResult(IterationResult::STATUS_SKIPPED);
         }
 
         $isSuccessful = $this->runAllActions($step, $recipeVariables, $iterationNumber);
+        $status = $isSuccessful ? IterationResult::STATUS_SUCCESSFUL : IterationResult::STATUS_ERROR;
 
-        return new IterationResult(true, $isSuccessful);
+        return new IterationResult($status);
     }
 
     /**

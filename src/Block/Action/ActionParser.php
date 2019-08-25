@@ -76,14 +76,15 @@ final class ActionParser implements ActionParserInterface
     private function runBlock(ActionDefinition $action, RecipeVariablesContainer $recipeVariables) : IterationResult
     {
         if (!$this->blockCommonOperation->evaluateWhenCondition($action->getWhenExpression(), $recipeVariables->getScopeVariables())) {
-            return new IterationResult(false, true);
+            return new IterationResult(IterationResult::STATUS_SKIPPED);
         }
 
         $executionMethodResult = $this->methodExecutor->runMethod($action->getMethod(), $recipeVariables->getScopeVariables());
 
         $this->registerVariableIfNecessary($recipeVariables, $action, $this->generateMethodExecutionResultVariables($executionMethodResult));
 
-        return new IterationResult(true, $executionMethodResult->isSuccess());
+        $status = $executionMethodResult->isSuccess() ? IterationResult::STATUS_SUCCESSFUL : IterationResult::STATUS_ERROR;
+        return new IterationResult($status);
     }
 
     /**
@@ -101,9 +102,10 @@ final class ActionParser implements ActionParserInterface
             if ($this->blockCommonOperation->evaluateWhenCondition($action->getWhenExpression(), $scopeVariables)) {
                 $executionMethodResult = $this->methodExecutor->runMethod($action->getMethod(), $scopeVariables);
                 $recipeIterationVariables->add($key, $this->generateMethodExecutionResultVariables($executionMethodResult));
-                $iterationResults[] = new IterationResult(true, $executionMethodResult->isSuccess());
+                $status = $executionMethodResult->isSuccess() ? IterationResult::STATUS_SUCCESSFUL : IterationResult::STATUS_ERROR;
+                $iterationResults[] = new IterationResult($status);
             } else {
-                $iterationResults[] = new IterationResult(false, true);
+                $iterationResults[] = new IterationResult(IterationResult::STATUS_SKIPPED); //new IterationResult(false, true);
             }
         }
 

@@ -21,8 +21,8 @@ class BlockResultTest extends TestCase
     public function testHasErrorMustReturnTrueIfAnyIterationResultIsNotSuccessful(): void
     {
         $iterationResults = new MixedCollection([
-            new IterationResult(true, true),
-            new IterationResult(true, false),
+            new IterationResult(IterationResult::STATUS_SUCCESSFUL),
+            new IterationResult(IterationResult::STATUS_ERROR),
         ]);
         $blockResult = new BlockResult('a1', $iterationResults);
 

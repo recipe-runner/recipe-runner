@@ -62,7 +62,6 @@ class StepParserTest extends TestCase
 
         $StepBlockResult = $this->getFirstBlockId($this->stepId1, $blocResultCollection);
         
-        $this->assertTrue($StepBlockResult->getIterationResultAt(0)->isExecuted());
         $this->assertTrue($StepBlockResult->getIterationResultAt(0)->isSuccessful());
     }
 
@@ -78,7 +77,6 @@ class StepParserTest extends TestCase
 
         $StepBlockResult = $this->getFirstBlockId($this->stepId1, $blocResultCollection);
         
-        $this->assertTrue($StepBlockResult->getIterationResultAt(0)->isExecuted());
         $this->assertTrue($StepBlockResult->getIterationResultAt(0)->isSuccessful());
     }
 
@@ -93,8 +91,7 @@ class StepParserTest extends TestCase
 
         $StepBlockResult = $this->getFirstBlockId($this->stepId1, $blocResultCollection);
         
-        $this->assertFalse($StepBlockResult->getIterationResultAt(0)->isExecuted());
-        $this->assertTrue($StepBlockResult->getIterationResultAt(0)->isSuccessful());
+        $this->assertTrue($StepBlockResult->getIterationResultAt(0)->isSkipped());
     }
 
     public function testParseMustExecuteAllTheActionsOfAStepAsMuchTimesAsElementsHasTheLoopExpression(): void
@@ -138,8 +135,8 @@ class StepParserTest extends TestCase
         
         $StepBlockResult = $this->getFirstBlockId($this->stepId1, $blocResultCollection);
         
-        $this->assertFalse($StepBlockResult->getIterationResultAt(0)->isExecuted());
-        $this->assertTrue($StepBlockResult->getIterationResultAt(1)->isExecuted());
+        $this->assertTrue($StepBlockResult->getIterationResultAt(0)->isSkipped());
+        $this->assertFalse($StepBlockResult->getIterationResultAt(1)->isSkipped());
     }
 
     public function testSecondActionMustHaveAccessToTheVariableRegisteredByTheFirstActionOfTheStep(): void

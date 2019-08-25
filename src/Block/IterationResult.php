@@ -18,30 +18,39 @@ namespace RecipeRunner\RecipeRunner\Block;
  */
 class IterationResult
 {
-    private $isExecuted;
-    private $isSuccessful;
+    public const STATUS_SKIPPED = 0;
+    public const STATUS_SUCCESSFUL = 1;
+    public const STATUS_ERROR = 2;
 
-    public function __construct(bool $isExecuted, bool $isSuccessful)
+    /** @var int */
+    private $status;
+
+    public function __construct(int $status)
     {
-        $this->isExecuted = $isExecuted;
-        $this->isSuccessful = $isSuccessful;
+        if ($status < 0 || $status > 2) {
+            throw new \InvalidArgumentException('Invalid iteration status.');
+        }
+
+        $this->status = $status;
     }
 
     /**
-     * Indicates if the block was executed in the iteration.
+     * Indicates if the block iteration was skipped.
      *
      * @return bool
      */
-    public function isExecuted(): bool
+    public function isSkipped(): bool
     {
-        return $this->isExecuted;
+        return $this->status === self::STATUS_SKIPPED;
     }
 
     /**
-     * Indicates if the block was executed in the iteration successfully.
+     * Indicates if the block iteration was executed successfully.
+     *
+     * @return bool
      */
     public function isSuccessful(): bool
     {
-        return $this->isSuccessful;
+        return $this->status === self::STATUS_SUCCESSFUL;
     }
 }

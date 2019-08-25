@@ -52,7 +52,7 @@ class ActionParserTest extends TestCase
         $result = $this->actionParser->parse($action, $this->recipeVariables);
 
         $this->assertEquals('Hi Víctor', $this->recipeVariables->getRecipeVariables()->getDot('registered.greetings.message'));
-        $this->assertTrue($result->getIterationResultAt(0)->isExecuted());
+        $this->assertTrue($result->getIterationResultAt(0)->isSuccessful());
     }
 
     public function testParseMustExecuteTheMethodWhenWhereConditionIsTrue(): void
@@ -63,7 +63,7 @@ class ActionParserTest extends TestCase
         
         $result = $this->actionParser->parse($action, $this->recipeVariables);
 
-        $this->assertTrue($result->getIterationResultAt(0)->isExecuted());
+        $this->assertTrue($result->getIterationResultAt(0)->isSuccessful());
     }
 
     public function testParseMustNotExecuteTheMethodWhenWhereConditionIsFalse(): void
@@ -74,7 +74,7 @@ class ActionParserTest extends TestCase
         
         $result = $this->actionParser->parse($action, $this->recipeVariables);
 
-        $this->assertFalse($result->getIterationResultAt(0)->isExecuted());
+        $this->assertFalse($result->getIterationResultAt(0)->isSuccessful());
     }
 
     public function testParseMustReturnTheStatusOfTheExecutionWhenRegisterVariableNameIsSet(): void
@@ -173,8 +173,8 @@ class ActionParserTest extends TestCase
         $result = $this->actionParser->parse($action, $this->recipeVariables);
 
         $this->assertEquals(2, $result->getNumberOfIterations());
-        $this->assertFalse($result->getIterationResultAt(0)->isExecuted());
-        $this->assertTrue($result->getIterationResultAt(1)->isExecuted());
+        $this->assertTrue($result->getIterationResultAt(0)->isSkipped());
+        $this->assertFalse($result->getIterationResultAt(1)->isSkipped());
         $this->assertEquals([
             'registered' => [
                 'greetings' => [

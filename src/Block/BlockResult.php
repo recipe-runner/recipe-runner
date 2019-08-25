@@ -66,7 +66,7 @@ class BlockResult
     public function hasError(): bool
     {
         return $this->iterationResults->any(function (IterationResult $iterationResult) {
-            return $iterationResult->isSuccessful() == false;
+            return !$iterationResult->isSkipped() && !$iterationResult->isSuccessful();
         });
     }
 
