@@ -27,7 +27,7 @@ class InvalidJsonException extends RuntimeException
      * Constructor.
      *
      * @param string $message The error message.
-     * @param Method $method The method.
+     * @param string $json JSON string that produced the exception.
      * @param Exception $previous The previous exception.
      */
     public function __construct(string $message, string $json, Exception $previous = null)

@@ -28,7 +28,7 @@ interface StepParserInterface
      * @param StepDefinition $step
      * @param RecipeVariablesContainer $recipeVariables
      *
-     * @return BlockResult[] List of block results from both step and step's actions.
+     * @return CollectionInterface List of BlockResults from both step and step's actions.
      */
     public function parse(StepDefinition $step, RecipeVariablesContainer $recipeVariables): CollectionInterface;
 }

@@ -25,7 +25,7 @@ class QuickStart
      * Creates a default RecipeParser that you can get started with.
      * This method always add the Essential module.
      *
-     * @param ModuleInterface[] $modules Collection of modules available for recipes.
+     * @param CollectionInterface $modules Collection of modules available for recipes.
      * @param IOInterface $io The input/output.
      *
      * @return RecipeParser

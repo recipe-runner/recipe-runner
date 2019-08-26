@@ -64,7 +64,7 @@ interface IOInterface
      *
      * @return string The response.
      *
-     * @throws RuntimeException If the system does not support hidden responses.
+     * @throws \RuntimeException If the system does not support hidden responses.
      */
     public function askWithHiddenResponse(string $question): string;
 
@@ -72,7 +72,7 @@ interface IOInterface
      * Asks the user to select a value.
      *
      * @param string $question The question to ask.
-     * @param array $Choices List of choices to pick from.
+     * @param array $choices List of choices to pick from.
      * @param bool|string $default The default answer if the user enters nothing.
      * @param int $attempts Max number of times to ask before giving up. INFINITE_ATTEMPTS in case no limits.
      *
@@ -84,7 +84,7 @@ interface IOInterface
      * Asks the user to select a value.
      *
      * @param string $question The question to ask.
-     * @param array $Choices List of choices to pick from.
+     * @param array $choices List of choices to pick from.
      * @param  bool|string $default The default answer if the user enters nothing.
      * @param int $attempts Max number of times to ask before giving up. INFINITE_ATTEMPTS in case no limit.
      *

@@ -38,7 +38,7 @@ class BlockResult
     /**
      * Constructor.
      *
-     * @param IterationResult[] $iterationResults
+     * @param CollectionInterface $iterationResults Collection of IterationResult
      */
     public function __construct(string $blockId, CollectionInterface $iterationResults)
     {
@@ -66,7 +66,14 @@ class BlockResult
     public function hasError(): bool
     {
         return $this->iterationResults->any(function (IterationResult $iterationResult) {
-            return !$iterationResult->isSkipped() && !$iterationResult->isSuccessful();
+            return $iterationResult->isFailed();
+        });
+    }
+
+    public function isSkipped(): bool
+    {
+        return $this->iterationResults->every(function (IterationResult $iterationResult) {
+            return $iterationResult->isSkipped();
         });
     }
 

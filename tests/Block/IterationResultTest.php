@@ -36,6 +36,7 @@ class IterationResultTest extends TestCase
     {
         $result = new IterationResult(IterationResult::STATUS_ERROR);
 
+        $this->assertTrue($result->isFailed());
         $this->assertFalse($result->isSuccessful());
         $this->assertFalse($result->isSkipped());
     }

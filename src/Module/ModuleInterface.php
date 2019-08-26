@@ -37,7 +37,7 @@ interface ModuleInterface
      * @param Method $method The method to be executed.
      * @param CollectionInterface $recipeVariables
      *
-     * @return string Result of the execution in JSON format.
+     * @return ExecutionResult
      */
     public function runMethod(Method $method, CollectionInterface $recipeVariables) : ExecutionResult;
 

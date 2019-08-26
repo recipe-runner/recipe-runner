@@ -24,7 +24,7 @@ class BlockResultTest extends TestCase
             new IterationResult(IterationResult::STATUS_SUCCESSFUL),
             new IterationResult(IterationResult::STATUS_ERROR),
         ]);
-        $blockResult = new BlockResult('a1', $iterationResults);
+        $blockResult = new BlockResult('id1', $iterationResults);
 
         $this->assertTrue($blockResult->hasError());
     }
@@ -32,21 +32,43 @@ class BlockResultTest extends TestCase
     public function testHasErrorMustReturnFalseWhenAllIterationResultsAreSuccessful(): void
     {
         $iterationResults = new MixedCollection([
-            new IterationResult(true, true),
-            new IterationResult(true, true),
+            new IterationResult(IterationResult::STATUS_SUCCESSFUL),
+            new IterationResult(IterationResult::STATUS_SUCCESSFUL),
         ]);
-        $blockResult = new BlockResult('a1', $iterationResults);
+        $blockResult = new BlockResult('id1', $iterationResults);
 
         $this->assertFalse($blockResult->hasError());
+    }
+
+    public function testBlockResultIsConsideredSkippedWhenAllIterationAreSkipped(): void
+    {
+        $iterationResults = new MixedCollection([
+            new IterationResult(IterationResult::STATUS_SKIPPED),
+            new IterationResult(IterationResult::STATUS_SKIPPED),
+        ]);
+        $blockResult = new BlockResult('id1', $iterationResults);
+
+        $this->assertTrue($blockResult->isSkipped());
+    }
+
+    public function testBlockResultIsNotConsideredSkippedWhenAtLeastOneIterationIsNotSkipped(): void
+    {
+        $iterationResults = new MixedCollection([
+            new IterationResult(IterationResult::STATUS_SUCCESSFUL),
+            new IterationResult(IterationResult::STATUS_SKIPPED),
+        ]);
+        $blockResult = new BlockResult('id1', $iterationResults);
+
+        $this->assertFalse($blockResult->isSkipped());
     }
 
     public function testGetNumberOfIterationsMustReturnTheNumberOfIteration(): void
     {
         $iterationResults = new MixedCollection([
-            new IterationResult(true, true),
-            new IterationResult(true, true),
+            new IterationResult(IterationResult::STATUS_SUCCESSFUL),
+            new IterationResult(IterationResult::STATUS_SUCCESSFUL),
         ]);
-        $blockResult = new BlockResult('a1', $iterationResults);
+        $blockResult = new BlockResult('id1', $iterationResults);
 
         $this->assertEquals(2, $blockResult->getNumberOfIterations());
     }
@@ -56,10 +78,10 @@ class BlockResultTest extends TestCase
         $iterationResultExpected = new IterationResult(true, false);
 
         $iterationResults = new MixedCollection([
-            new IterationResult(true, true),
+            new IterationResult(IterationResult::STATUS_SUCCESSFUL),
             $iterationResultExpected,
         ]);
-        $blockResult = new BlockResult('a1', $iterationResults);
+        $blockResult = new BlockResult('id1', $iterationResults);
 
         $this->assertEquals($iterationResultExpected, $blockResult->getIterationResultAt(1));
     }
@@ -71,7 +93,7 @@ class BlockResultTest extends TestCase
     public function testGetIterationAtMustFailWhenTheIndexIsSubZero(): void
     {
         $iterationResults = new MixedCollection();
-        $blockResult = new BlockResult('a1', $iterationResults);
+        $blockResult = new BlockResult('id1', $iterationResults);
 
         $blockResult->getIterationResultAt(-1);
     }
@@ -83,9 +105,9 @@ class BlockResultTest extends TestCase
     public function testGetIterationAtMustFailWhenTheIndexIsOutOfRange(): void
     {
         $iterationResults = new MixedCollection([
-            new IterationResult(true, true),
+            new IterationResult(IterationResult::STATUS_SUCCESSFUL),
         ]);
-        $blockResult = new BlockResult('a1', $iterationResults);
+        $blockResult = new BlockResult('id1', $iterationResults);
 
         $blockResult->getIterationResultAt(1);
     }
@@ -93,22 +115,22 @@ class BlockResultTest extends TestCase
     public function testGetBlockIdMustReturnTheIdOfTheBlockThatGeneratedTheResult(): void
     {
         $iterationResults = new MixedCollection([
-            new IterationResult(true, true),
+            new IterationResult(IterationResult::STATUS_SUCCESSFUL),
         ]);
-        $blockResult = new BlockResult('a1', $iterationResults);
+        $blockResult = new BlockResult('id1', $iterationResults);
 
-        $this->assertEquals('a1', $blockResult->getBlockId());
+        $this->assertEquals('id1', $blockResult->getBlockId());
     }
 
     public function testSetParentBlockData(): void
     {
         $iterationResults = new MixedCollection([
-            new IterationResult(true, true),
+            new IterationResult(IterationResult::STATUS_SUCCESSFUL),
         ]);
-        $blockResult = new BlockResult('a1', $iterationResults);
-        $blockResult->setParentBlockData('a0', 0);
+        $blockResult = new BlockResult('id1', $iterationResults);
+        $blockResult->setParentBlockData('id0', 0);
 
-        $this->assertEquals('a0', $blockResult->getParentBlockId());
+        $this->assertEquals('id0', $blockResult->getParentBlockId());
         $this->assertEquals(0, $blockResult->getParentIterationNumber());
     }
 
@@ -119,10 +141,10 @@ class BlockResultTest extends TestCase
     public function testSetParentBlockDataMustFailWhenNegativeIterationNumber(): void
     {
         $iterationResults = new MixedCollection([
-            new IterationResult(true, true),
+            new IterationResult(IterationResult::STATUS_SUCCESSFUL),
         ]);
-        $blockResult = new BlockResult('a1', $iterationResults);
-        $blockResult->setParentBlockData('a0', -1);
+        $blockResult = new BlockResult('id1', $iterationResults);
+        $blockResult->setParentBlockData('id0', -1);
     }
 
     /**
@@ -132,9 +154,9 @@ class BlockResultTest extends TestCase
     public function testSetParentBlockDataMustFailWhenInvalidParentId(): void
     {
         $iterationResults = new MixedCollection([
-            new IterationResult(true, true),
+            new IterationResult(IterationResult::STATUS_SUCCESSFUL),
         ]);
-        $blockResult = new BlockResult('a1', $iterationResults);
+        $blockResult = new BlockResult('id1', $iterationResults);
         $blockResult->setParentBlockData('', 0);
     }
 
@@ -144,8 +166,7 @@ class BlockResultTest extends TestCase
     */
     public function testConstructorMustFailWhenInvalidId(): void
     {
-        $iterationResults = new MixedCollection([
-        ]);
+        $iterationResults = new MixedCollection([]);
         $blockResult = new BlockResult('', $iterationResults);
     }
 }

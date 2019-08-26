@@ -69,10 +69,10 @@ class BlockCommonOperation
     /**
      * Evaluates a loop expression if it is a string.
      *
-     * @param string $expression
+     * @param CollectionInterface|string $loopExpression
      * @param CollectionInterface $recipeVariables
      *
-     * @return bool
+     * @return CollectionInterface
      */
     public function evaluateLoopExpressionIfItIsString($loopExpression, CollectionInterface $recipeVariables) : CollectionInterface
     {

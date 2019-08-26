@@ -27,7 +27,9 @@ class ModuleMethodExecutor
     /**
      * Constructor.
      *
-     * @param ModuleInterface[] $modules List of modules.
+     * @param CollectionInterface $modules List of object implementing ModuleInterface.
+     * @param ExpressionResolverInterface $expressionResolver
+     * @param IOInterface $io
      */
     public function __construct(CollectionInterface $modules, ExpressionResolverInterface $expressionResolver, IOInterface $io)
     {
@@ -39,7 +41,10 @@ class ModuleMethodExecutor
     /**
      * Runs a method of any registered module.
      *
-     * @return string JSON with the result.
+     * @param Method $method
+     * @param CollectionInterface $recipeVariables
+     *
+     * @return ExecutionResult
      */
     public function runMethod(Method $method, CollectionInterface $recipeVariables) : ExecutionResult
     {

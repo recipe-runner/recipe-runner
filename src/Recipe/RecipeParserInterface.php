@@ -27,7 +27,7 @@ interface RecipeParserInterface
      * @param RecipeDefinition $recipe The recipe definition.
      * @param CollectionInterface $recipeVariables Collection of variables available during the process.
      *
-     * @return BlockResult[] List of block result from steps and actions.
+     * @return CollectionInterface List of BlockResult from steps and actions.
      */
     public function parse(RecipeDefinition $recipe, CollectionInterface $recipeVariables): CollectionInterface;
 }

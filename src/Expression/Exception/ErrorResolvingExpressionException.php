@@ -22,7 +22,7 @@ class ErrorResolvingExpressionException extends RuntimeException
      * Constructor.
      *
      * @param string $message The error message.
-     * @param Method $method The method.
+     * @param string $expression The expression.
      * @param Exception $previous The previous exception.
      */
     public function __construct(string $message, string $expression, Exception $previous = null)

@@ -53,7 +53,7 @@ class RecipeDefinition
     /**
      * Returns the list of steps that compose this recipe.
      *
-     * @return StepDefinition[]
+     * @return CollectionInterface Collection of StepDefinition.
      */
     public function getStepDefinitions(): CollectionInterface
     {

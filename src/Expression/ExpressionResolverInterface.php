@@ -33,7 +33,7 @@ interface ExpressionResolverInterface
      *
      * @return bool
      *
-     * @throws RecipeRunner\Expression\Exception\ErrorResolvingExpressionException If expression's result is not boolean.
+     * @throws Exception\ErrorResolvingExpressionException If expression's result is not boolean.
      */
     public function resolveBooleanExpression(string $expression, CollectionInterface $variables) : bool;
 
@@ -43,9 +43,9 @@ interface ExpressionResolverInterface
      * @param string $expression
      * @param CollectionInterface $variables
      *
-     * @return bool
+     * @return CollectionInterface A collection of items.
      *
-     * @throws RecipeRunner\Expression\Exception\ErrorResolvingExpressionException If expression's result is not a collection.
+     * @throws Exception\ErrorResolvingExpressionException If expression's result is not a collection.
      */
     public function resolveCollectionExpression(string $expression, CollectionInterface $variables) : CollectionInterface;
 

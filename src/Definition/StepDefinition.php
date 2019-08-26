@@ -28,8 +28,8 @@ class StepDefinition extends BaseBlockDefinition
     /**
      * Constructor.
      *
-     * @param string $name The name of the step.
-     * @param ActionDefinition[] $actionDefinitions
+     * @param string $id The id of the step.
+     * @param CollectionInterface $actionDefinitions Collection of ActionDefinition.
      */
     public function __construct(string $id, CollectionInterface $actionDefinitions)
     {
@@ -45,7 +45,7 @@ class StepDefinition extends BaseBlockDefinition
     /**
      * Returns the list of activities that compose this step.
      *
-     * @return ActionDefinition[]
+     * @return CollectionInterface A collection of ActionDefinition.
      */
     public function getActionDefinitions(): CollectionInterface
     {

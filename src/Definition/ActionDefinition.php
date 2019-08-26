@@ -24,7 +24,8 @@ class ActionDefinition extends BaseBlockDefinition
     /**
      * Constructor.
      *
-     * @param string $name The activity's name.
+     * @param string $id The activity's id.
+     * @param Method $method
      */
     public function __construct(string $id, Method $method)
     {

@@ -91,7 +91,7 @@ class BaseBlockDefinition
     /**
      * Sets the value of the loop expression.
      *
-     * @param string|CollectionInterface $loopExpression
+     * @param string|CollectionInterface $expression
      *
      * @return  self
      */

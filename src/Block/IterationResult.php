@@ -53,4 +53,14 @@ class IterationResult
     {
         return $this->status === self::STATUS_SUCCESSFUL;
     }
+
+    /**
+     * Indicates the block iteration execution failed.
+     *
+     * @return bool
+     */
+    public function isFailed(): bool
+    {
+        return $this->status === self::STATUS_ERROR;
+    }
 }

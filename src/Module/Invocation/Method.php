@@ -12,6 +12,7 @@
 namespace RecipeRunner\RecipeRunner\Module\Invocation;
 
 use InvalidArgumentException;
+use Yosymfony\Collection\CollectionInterface;
 use Yosymfony\Collection\MixedCollection;
 
 class Method
@@ -66,9 +67,9 @@ class Method
     /**
      * Returns the collection of parameters with the parameter name as key.
      *
-     * @return MixedCollection
+     * @return CollectionInterface
      */
-    public function getParameters() : MixedCollection
+    public function getParameters() : CollectionInterface
     {
         return $this->parameters->copy();
     }

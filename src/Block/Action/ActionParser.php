@@ -127,7 +127,7 @@ final class ActionParser implements ActionParserInterface
         return new MixedCollection($variables);
     }
 
-    private function generateMethodExecutionResultVariables(ExecutionResult $executionResult) : MixedCollection
+    private function generateMethodExecutionResultVariables(ExecutionResult $executionResult) : CollectionInterface
     {
         $result = (new MixedCollection([
             'success' => $executionResult->isSuccess(),

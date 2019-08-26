@@ -18,7 +18,7 @@ abstract class ExpressionProviderBase implements ExpressionFunctionProviderInter
      * @param string $name Name of the function.
      * @param string $staticFunctionName of the static function.
      *
-     * @param ExpressionFunction
+     * @return ExpressionFunction
      */
     protected function createExpressionFunction(string $name, string $staticFunctionName): ExpressionFunction
     {
