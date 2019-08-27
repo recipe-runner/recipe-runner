@@ -42,10 +42,10 @@ Recipes are written in YAML:
 name: "Very simple example that creates variables"
 
 steps:
-    - actions:
-        - register_variables:
-            user: "victor"
-          register: my_variables
+  - actions:
+    - register_variables:
+        user: "victor"
+        register: my_variables
 ```
 
 ## Unit tests
