@@ -83,7 +83,7 @@ final class ActionParser implements ActionParserInterface
 
         $this->registerVariableIfNecessary($recipeVariables, $action, $this->generateMethodExecutionResultVariables($executionMethodResult));
 
-        $status = $executionMethodResult->isSuccess() ? IterationResult::STATUS_SUCCESSFUL : IterationResult::STATUS_ERROR;
+        $status = $executionMethodResult->isSuccess() ? IterationResult::STATUS_SUCCESSFUL : IterationResult::STATUS_FAILED;
         return new IterationResult($status);
     }
 
@@ -102,7 +102,7 @@ final class ActionParser implements ActionParserInterface
             if ($this->blockCommonOperation->evaluateWhenCondition($action->getWhenExpression(), $scopeVariables)) {
                 $executionMethodResult = $this->methodExecutor->runMethod($action->getMethod(), $scopeVariables);
                 $recipeIterationVariables->add($key, $this->generateMethodExecutionResultVariables($executionMethodResult));
-                $status = $executionMethodResult->isSuccess() ? IterationResult::STATUS_SUCCESSFUL : IterationResult::STATUS_ERROR;
+                $status = $executionMethodResult->isSuccess() ? IterationResult::STATUS_SUCCESSFUL : IterationResult::STATUS_FAILED;
                 $iterationResults[] = new IterationResult($status);
             } else {
                 $iterationResults[] = new IterationResult(IterationResult::STATUS_SKIPPED); //new IterationResult(false, true);

@@ -22,11 +22,11 @@ class BlockResultTest extends TestCase
     {
         $iterationResults = new MixedCollection([
             new IterationResult(IterationResult::STATUS_SUCCESSFUL),
-            new IterationResult(IterationResult::STATUS_ERROR),
+            new IterationResult(IterationResult::STATUS_FAILED),
         ]);
         $blockResult = new BlockResult('id1', $iterationResults);
 
-        $this->assertTrue($blockResult->hasError());
+        $this->assertTrue($blockResult->isFailed());
     }
 
     public function testHasErrorMustReturnFalseWhenAllIterationResultsAreSuccessful(): void
@@ -37,7 +37,7 @@ class BlockResultTest extends TestCase
         ]);
         $blockResult = new BlockResult('id1', $iterationResults);
 
-        $this->assertFalse($blockResult->hasError());
+        $this->assertFalse($blockResult->isFailed());
     }
 
     public function testBlockResultIsConsideredSkippedWhenAllIterationAreSkipped(): void

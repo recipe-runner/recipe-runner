@@ -34,7 +34,7 @@ class IterationResultTest extends TestCase
 
     public function testStatusErrorIsNotSuccessfulNorSkipped(): void
     {
-        $result = new IterationResult(IterationResult::STATUS_ERROR);
+        $result = new IterationResult(IterationResult::STATUS_FAILED);
 
         $this->assertTrue($result->isFailed());
         $this->assertFalse($result->isSuccessful());

@@ -81,7 +81,7 @@ final class StepParser implements StepParserInterface
         }
 
         $isSuccessful = $this->runAllActions($step, $recipeVariables, $iterationNumber);
-        $status = $isSuccessful ? IterationResult::STATUS_SUCCESSFUL : IterationResult::STATUS_ERROR;
+        $status = $isSuccessful ? IterationResult::STATUS_SUCCESSFUL : IterationResult::STATUS_FAILED;
 
         return new IterationResult($status);
     }
@@ -111,7 +111,7 @@ final class StepParser implements StepParserInterface
             $actionBlockResult = $this->actionParser->parse($action, $recipeVariables);
             $actionBlockResult->setParentBlockData($step->getId(), $iterationNumber);
 
-            if ($actionBlockResult->hasError()) {
+            if ($actionBlockResult->isFailed()) {
                 $isSuccessful = false;
             }
 

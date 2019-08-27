@@ -20,7 +20,7 @@ class IterationResult
 {
     public const STATUS_SKIPPED = 0;
     public const STATUS_SUCCESSFUL = 1;
-    public const STATUS_ERROR = 2;
+    public const STATUS_FAILED = 2;
 
     /** @var int */
     private $status;
@@ -61,6 +61,6 @@ class IterationResult
      */
     public function isFailed(): bool
     {
-        return $this->status === self::STATUS_ERROR;
+        return $this->status === self::STATUS_FAILED;
     }
 }

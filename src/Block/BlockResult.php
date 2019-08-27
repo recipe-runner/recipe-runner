@@ -59,17 +59,23 @@ class BlockResult
     }
 
     /**
-     * Is there any iteration with error?
+     * A block execution is failed when there is at least one
+     * iteration failed.
      *
      * @return bool
      */
-    public function hasError(): bool
+    public function isFailed(): bool
     {
         return $this->iterationResults->any(function (IterationResult $iterationResult) {
             return $iterationResult->isFailed();
         });
     }
 
+    /**
+     * A block execution is skipped when all iteration are skipped.
+     *
+     * @return bool
+     */
     public function isSkipped(): bool
     {
         return $this->iterationResults->every(function (IterationResult $iterationResult) {
