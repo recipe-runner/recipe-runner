@@ -17,11 +17,16 @@ interface ExpressionResolverInterface
 {
     /**
      * Resolves a expression.
+     * Examples of expressions:
+     *  - "Hi, the sum is {{1+1}}" will be resolved as a STRING: "Hi, the sum is 2"
+     *  - "{{[1,2]}}" is a "pure" expression and will be resolved as and array.
      *
      * @param string $expression
      * @param CollectionInterface $variables
      *
      * @return mixed
+     *
+     * @throws Exception\ErrorResolvingExpressionException If fault resolving expression.
      */
     public function resolveExpression(string $expression, CollectionInterface $variables);
 
@@ -35,7 +40,7 @@ interface ExpressionResolverInterface
      *
      * @throws Exception\ErrorResolvingExpressionException If expression's result is not boolean.
      */
-    public function resolveBooleanExpression(string $expression, CollectionInterface $variables) : bool;
+    public function resolveBooleanExpression(string $expression, CollectionInterface $variables): bool;
 
     /**
      * Resolves a collection expression.
@@ -47,15 +52,5 @@ interface ExpressionResolverInterface
      *
      * @throws Exception\ErrorResolvingExpressionException If expression's result is not a collection.
      */
-    public function resolveCollectionExpression(string $expression, CollectionInterface $variables) : CollectionInterface;
-
-    /**
-     * Resolve string interpolations.
-     *
-     * @param string $literal String literal with placeholders. e.g: "Hi {{ name }}"
-     * @param CollectionInterface $variables
-     *
-     * @return string
-     */
-    public function resolveStringInterpolation(string $literal, CollectionInterface $variables) : string;
+    public function resolveCollectionExpression(string $expression, CollectionInterface $variables): CollectionInterface;
 }

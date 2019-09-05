@@ -29,14 +29,14 @@ class SystemExpressionProviderIntegrationTest extends TestCase
     {
         \putenv('name=Víctor');
         
-        $result = $this->expressionResolver->resolveStringInterpolation('hi {{env("name")}}', new MixedCollection());
+        $result = $this->expressionResolver->resolveExpression('hi {{env("name")}}', new MixedCollection());
 
         $this->assertEquals('hi Víctor', $result);
     }
 
     public function testVersionCompare(): void
     {
-        $result = $this->expressionResolver->resolveExpression('version_compare("1.0.0", ">", "0.1.9")', new MixedCollection());
+        $result = $this->expressionResolver->resolveExpression('{{version_compare("1.0.0", ">", "0.1.9")}}', new MixedCollection());
 
         $this->assertTrue($result);
     }

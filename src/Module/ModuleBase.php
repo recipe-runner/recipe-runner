@@ -103,7 +103,7 @@ abstract class ModuleBase implements ModuleInterface
     }
 
     /**
-     * Returns a new method with the parameter placeholders resolved.
+     * Returns a new method with expressions in the parameter placeholders resolved.
      *
      * @param Method $method
      * @param CollectionInterface $recipeVariables
@@ -127,6 +127,6 @@ abstract class ModuleBase implements ModuleInterface
             return $value;
         }
         
-        return $this->expressionResolver->resolveStringInterpolation($value, $recipeVariables);
+        return $this->expressionResolver->resolveExpression($value, $recipeVariables);
     }
 }

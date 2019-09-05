@@ -42,24 +42,43 @@ class SymfonyExpressionLanguage implements ExpressionResolverInterface
     /**
      * {@inheritdoc}
      */
-    public function resolveExpression(string $expression, CollectionInterface $variables)
+    public function resolveExpression(string $literal, CollectionInterface $variables)
     {
-        $adaptedVariables = $this->ConvertVariableCollectionIntoArrayExpression($variables);
+        if ($this->isAPureExpression($literal)) {
+            $expression = $this->getExpressionFromPureExpression($literal);
 
-        try {
-            return $this->expressionLanguage->evaluate($expression, $adaptedVariables);
-        } catch (Exception $ex) {
-            $message = "Error resolving expression: \"{$expression}\". Details: {$ex->getMessage()}";
-            throw new ErrorResolvingExpressionException($message, $expression);
+            return $this->internalResolveExpression($expression, $variables);
         }
+
+        return \preg_replace_callback(self::$interpolationPatter, function ($match) use ($literal, $variables) {
+            if (!isset($match[1])) {
+                return self::INTERPOLATION_OPEN.self::INTERPOLATION_CLOSE;
+            }
+
+            $expression = $match[1];
+
+            if (\trim($expression) === '') {
+                return self::INTERPOLATION_OPEN.$expression.self::INTERPOLATION_CLOSE;
+            }
+
+            $resolved = $this->internalResolveExpression($expression, $variables);
+
+            if (\is_array($resolved)) {
+                $message = "List are not valid values for string interpolation. Expression: \"{$expression}\". Literal: \"{$literal}\".";
+                throw new ErrorResolvingExpressionException($message, $expression);
+            }
+
+            return \sprintf('%s', $resolved);
+        }, $literal);
     }
+    
 
     /**
      * {@inheritdoc}
      */
     public function resolveBooleanExpression(string $expression, CollectionInterface $variables) : bool
     {
-        $result = $this->resolveExpression($expression, $variables);
+        $result = $this->internalResolveExpression($expression, $variables);
 
         if ($result === true || $result === false) {
             return $result;
@@ -74,7 +93,7 @@ class SymfonyExpressionLanguage implements ExpressionResolverInterface
      */
     public function resolveCollectionExpression(string $expression, CollectionInterface $variables) : CollectionInterface
     {
-        $values = $this->resolveExpression($expression, $variables);
+        $values = $this->internalResolveExpression($expression, $variables);
 
         if (is_array($values)) {
             return new MixedCollection($values);
@@ -84,36 +103,40 @@ class SymfonyExpressionLanguage implements ExpressionResolverInterface
         throw new ErrorResolvingExpressionException($message, $expression);
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * Example: "The sum is 2: {{ 1 + 2 }}" -> "The sum is 2: 2".
-     */
-    public function resolveStringInterpolation(string $literal, CollectionInterface $variables) : string
+    private function internalResolveExpression(string $expression, CollectionInterface $variables)
     {
-        return \preg_replace_callback(self::$interpolationPatter, function ($match) use ($literal, $variables) {
-            if (!isset($match[1])) {
-                return self::INTERPOLATION_OPEN.self::INTERPOLATION_CLOSE;
-            }
+        $adaptedVariables = $this->convertVariableCollectionIntoArrayExpression($variables);
 
-            $expression = $match[1];
-
-            if (\trim($expression) === '') {
-                return self::INTERPOLATION_OPEN.$expression.self::INTERPOLATION_CLOSE;
-            }
-
-            $resolved = $this->resolveExpression($expression, $variables);
-
-            if (\is_array($resolved)) {
-                $message = "List are not valid values for string interpolation. Expression: \"{$expression}\". Literal: \"{$literal}\".";
-                throw new ErrorResolvingExpressionException($message, $expression);
-            }
-
-            return \sprintf('%s', $resolved);
-        }, $literal);
+        try {
+            return $this->expressionLanguage->evaluate($expression, $adaptedVariables);
+        } catch (Exception $ex) {
+            $message = "Error resolving expression: \"{$expression}\". Details: {$ex->getMessage()}";
+            throw new ErrorResolvingExpressionException($message, $expression);
+        }
     }
 
-    private function ConvertVariableCollectionIntoArrayExpression(CollectionInterface $variables): array
+    private function isAPureExpression(string $literal): bool
+    {
+        $beginning = \substr($literal, 0, strlen(self::INTERPOLATION_OPEN));
+        $end = \substr($literal, -\strlen(self::INTERPOLATION_CLOSE));
+
+        if ($beginning === self::INTERPOLATION_OPEN && $end === self::INTERPOLATION_CLOSE) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function getExpressionFromPureExpression(string $literal): string
+    {
+        $expression = \substr($literal, strlen(self::INTERPOLATION_OPEN));
+        $expression = \substr($expression, 0, -strlen(self::INTERPOLATION_CLOSE));
+        $expression = \trim($expression);
+
+        return $expression;
+    }
+
+    private function convertVariableCollectionIntoArrayExpression(CollectionInterface $variables): array
     {
         $variablesAsArray = [];
 

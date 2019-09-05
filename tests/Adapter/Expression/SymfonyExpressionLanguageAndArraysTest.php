@@ -35,7 +35,7 @@ class SymfonyExpressionLanguageAndArraysTest extends TestCase
                 'level2' => $expected,
             ],
         ]);
-        $literal = 'values["level1"]["level2"]';
+        $literal = '{{values["level1"]["level2"]}}';
 
         $resolved = $this->expressionResolver->resolveExpression($literal, $this->variables);
 
@@ -51,7 +51,7 @@ class SymfonyExpressionLanguageAndArraysTest extends TestCase
                 'second' => 'Víctor',
             ],
         ]);
-        $literal = 'values.get("names.first")';
+        $literal = '{{values.get("names.first")}}';
 
         $resolved = $this->expressionResolver->resolveExpression($literal, $this->variables);
 
@@ -65,7 +65,7 @@ class SymfonyExpressionLanguageAndArraysTest extends TestCase
                 'second' => 'Víctor',
             ],
         ]);
-        $literal = 'values.get("names.first", "Alex")';
+        $literal = '{{values.get("names.first", "Alex")}}';
         $resolved = $this->expressionResolver->resolveExpression($literal, $this->variables);
 
         $this->assertEquals('Alex', $resolved);
@@ -74,7 +74,7 @@ class SymfonyExpressionLanguageAndArraysTest extends TestCase
     public function testHasMethodMustReturnTrueWhenTheKeyExists() : void
     {
         $this->variables->add('values', ['value1' => 1]);
-        $literal = 'values.has("value1")';
+        $literal = '{{values.has("value1")}}';
         $resolved = $this->expressionResolver->resolveExpression($literal, $this->variables);
 
         $this->assertTrue($resolved);
