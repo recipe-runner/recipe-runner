@@ -12,18 +12,18 @@
 namespace RecipeRunner\RecipeRunner\Test\Adapter\Expression;
 
 use PHPUnit\Framework\TestCase;
-use RecipeRunner\RecipeRunner\Adapter\Expression\ExpressionArray;
+use RecipeRunner\RecipeRunner\Adapter\Expression\Dictionary;
 
-class ExpressionArrayTest extends TestCase
+class DictionaryTest extends TestCase
 {
     public function testAnySubArrayMustBeTurnedIntoAnExpressionArray(): void
     {
-        $arr = $this->make([
+        $dictionary = $this->make([
             'values' => [1,2,3],
         ]);
 
-        $this->assertInstanceOf(ExpressionArray::class, $arr['values']);
-        $this->assertInstanceOf(ExpressionArray::class, $arr->get('values'));
+        $this->assertInstanceOf(Dictionary::class, $dictionary['values']);
+        $this->assertInstanceOf(Dictionary::class, $dictionary->get('values'));
     }
 
     public function testGetMustReturnTheValueAtTheEndOfThePath(): void
@@ -128,8 +128,8 @@ class ExpressionArrayTest extends TestCase
         $this->assertCount(0, $arr);
     }
 
-    private function make(array $values = []) : ExpressionArray
+    private function make(array $values = []) : Dictionary
     {
-        return new ExpressionArray($values);
+        return new Dictionary($values);
     }
 }

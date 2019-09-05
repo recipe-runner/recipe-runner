@@ -7,11 +7,11 @@ use Countable;
 use Yosymfony\Collection\MixedCollection;
 
 /**
- * ExpressionArray is a wrapper for each array value in Symfony Expression language.
+ * Dictionary is a wrapper for each array value in Symfony Expression language.
  *
  * @author Víctor Puertas <vpgugr@gmail.com>
  */
-class ExpressionArray implements ArrayAccess, Countable
+class Dictionary implements ArrayAccess, Countable
 {
     /** @var MixedCollection */
     private $values;
@@ -121,6 +121,6 @@ class ExpressionArray implements ArrayAccess, Countable
             return $value;
         }
 
-        return new ExpressionArray($value);
+        return new Dictionary($value);
     }
 }

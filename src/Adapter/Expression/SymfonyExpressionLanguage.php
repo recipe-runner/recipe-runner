@@ -141,7 +141,7 @@ class SymfonyExpressionLanguage implements ExpressionResolverInterface
         $variablesAsArray = [];
 
         foreach ($variables->toArray() as $key => $value) {
-            $variablesAsArray[$key] = !\is_array($value) ? $value : new ExpressionArray($value);
+            $variablesAsArray[$key] = !\is_array($value) ? $value : new Dictionary($value);
         }
 
         return $variablesAsArray;
