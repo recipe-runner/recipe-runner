@@ -41,6 +41,10 @@ class SymfonyExpressionLanguage implements ExpressionResolverInterface
 
     /**
      * {@inheritdoc}
+     *
+     * Examples of expressions:
+     *  - "Hi, the sum is {{1+1}}" will be resolved as a STRING: "Hi, the sum is 2"
+     *  - "{{[1,2]}}" is a "pure" expression and will be resolved as and array.
      */
     public function resolveExpression(string $literal, CollectionInterface $variables)
     {

@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 use RecipeRunner\RecipeRunner\Adapter\Expression\SymfonyExpressionLanguage;
 use Yosymfony\Collection\MixedCollection;
 
-class SymfonyExpressionLanguageAndArraysTest extends TestCase
+class SymfonyExpressionLanguageAndDictionaryTest extends TestCase
 {
     /** @var SymfonyExpressionLanguage */
     private $expressionResolver;
@@ -27,7 +27,7 @@ class SymfonyExpressionLanguageAndArraysTest extends TestCase
         $this->expressionResolver = new SymfonyExpressionLanguage();
     }
 
-    public function testAccessSubArray(): void
+    public function testAccessInnerDictionary(): void
     {
         $expected = 'test';
         $this->variables->add('values', [
