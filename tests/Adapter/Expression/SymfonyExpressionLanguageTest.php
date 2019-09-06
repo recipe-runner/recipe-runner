@@ -88,9 +88,20 @@ class SymfonyExpressionLanguageTest extends TestCase
 
     /**
      * @expectedException RecipeRunner\RecipeRunner\Expression\Exception\ErrorResolvingExpressionException
+     * @expectedExceptionMessage List are not valid values for string interpolation. Expression: "my_items". Literal: "numbers {{my_items}}".
+     */
+    public function testResolveExpressionMustFailWhenAPlaceHolderIsResolvedToADictionary() : void
+    {
+        $this->variables->add('my_items', [1]);
+        $literal = 'numbers {{my_items}}';
+        $resolved = $this->expressionResolver->resolveExpression($literal, $this->variables);
+    }
+
+    /**
+     * @expectedException RecipeRunner\RecipeRunner\Expression\Exception\ErrorResolvingExpressionException
      * @expectedExceptionMessage List are not valid values for string interpolation. Expression: "1..4". Literal: "numbers {{1..4}}".
      */
-    public function testResolveExpressionMustFailWhenAPlaceHolderIsResolvedToAList() : void
+    public function testResolveExpressionMustFailWhenAPlaceHolderIsResolvedToAnArray() : void
     {
         $literal = 'numbers {{1..4}}';
         $resolved = $this->expressionResolver->resolveExpression($literal, $this->variables);

@@ -67,7 +67,7 @@ class SymfonyExpressionLanguage implements ExpressionResolverInterface
 
             $resolved = $this->internalResolveExpression($expression, $variables);
 
-            if (\is_array($resolved)) {
+            if (\is_array($resolved) || \is_a($resolved, Dictionary::class)) {
                 $message = "List are not valid values for string interpolation. Expression: \"{$expression}\". Literal: \"{$literal}\".";
                 throw new ErrorResolvingExpressionException($message, $expression);
             }
