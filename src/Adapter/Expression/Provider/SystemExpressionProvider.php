@@ -33,21 +33,21 @@ class SystemExpressionProvider extends ExpressionProviderBase
      *
      * @param string $name The variable name.
      *
-     * @return string The value or empty string if the environment variable does not exist.
+     * @return string|null The value or null if the environment variable does not exist.
      */
-    public static function env(string $name): string
+    public static function env(string $name): ?string
     {
         $value = \getenv($name);
 
         if ($value === false) {
-            return '';
+            return null;
         }
 
         return $value;
     }
 
     /**
-     * Returns Compare two version strings following the pattern "mayor.minor.patch".
+     * Compares two version strings following the pattern "mayor.minor.patch".
      *
      * @param string $version1
      * @param string $operator Operator. Valid values: <, <=, >, >=, =, !=.
@@ -59,6 +59,7 @@ class SystemExpressionProvider extends ExpressionProviderBase
     {
         $version1 = \strtolower($version1);
         $version2 = \strtolower($version2);
+        
         try {
             return \version_compare($version1, $version2, $operator);
         } catch (\Throwable $th) {
