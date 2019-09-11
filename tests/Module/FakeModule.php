@@ -16,16 +16,35 @@ use RecipeRunner\RecipeRunner\Module\Invocation\Method;
 use RecipeRunner\RecipeRunner\Module\ModuleBase;
 use Yosymfony\Collection\CollectionInterface;
 
+/**
+ * Fake module let you create a module using callables.
+ *
+ * @author Víctor Puertas <vpgugr@gmail.com>
+ */
 class FakeModule extends ModuleBase
 {
+    /**
+     * Runs a method. This method is part of ModuleInterface.
+     *
+     * @param Method $method
+     * @param CollectionInterface $recipeVariables
+     *
+     * @return ExecutionResult The result of the execution.
+     */
     public function runMethod(Method $method, CollectionInterface $recipeVariables) : ExecutionResult
     {
-        $result = $this->runInternalMethod($method, $recipeVariables);
-
-        return new ExecutionResult($result);
+        return $this->runInternalMethod($method, $recipeVariables);
     }
 
-    public function addMethod(string $name, callable $handler)
+    /**
+     * Adds a new method to the fake module.
+     *
+     * @param string $name Name of the method.
+     * @param callable Handler of the method. It must return an ExecutionResult.
+     *
+     * @return void
+     */
+    public function addMethod(string $name, callable $handler): void
     {
         $this->addMethodHandler($name, $handler);
     }

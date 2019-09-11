@@ -15,6 +15,7 @@ use PHPUnit\Framework\TestCase;
 use RecipeRunner\RecipeRunner\Definition\ActionDefinition;
 use RecipeRunner\RecipeRunner\Definition\RecipeDefinition;
 use RecipeRunner\RecipeRunner\Definition\StepDefinition;
+use RecipeRunner\RecipeRunner\Module\Invocation\ExecutionResult;
 use RecipeRunner\RecipeRunner\Module\Invocation\Method;
 use RecipeRunner\RecipeRunner\Recipe\RecipeParser;
 use RecipeRunner\RecipeRunner\RecipeVariablesContainer;
@@ -65,7 +66,7 @@ class QuickStartTest extends TestCase
         $module = new FakeModule('TestModule');
         
         $module->addMethod('hi_you', function (Method $method) {
-            return '{}';
+            return new ExecutionResult(ExecutionResult::EMPTY_JSON);
         });
 
         return $module;

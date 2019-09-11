@@ -255,11 +255,11 @@ class ActionParserTest extends TestCase
         $module->addMethod('hi_you', function (Method $method) {
             $name = $method->getParameterNameOrPosition('name', 0);
             
-            return \json_encode(['message' => "Hi {$name}"]);
+            return new ExecutionResult(\json_encode(['message' => "Hi {$name}"]), true);
         });
 
         $module->addMethod('method_with_bad_json', function (Method $method) {
-            return '{';
+            return new ExecutionResult('{', false);
         });
 
         return $module;

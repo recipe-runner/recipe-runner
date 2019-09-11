@@ -20,7 +20,8 @@ use Yosymfony\Collection\CollectionInterface;
 use Yosymfony\Collection\MixedCollection;
 
 /**
- * Base class for modules providing run and check methods.
+ * Base class for modules that implements most of the interface and
+ * add some useful methods.
  *
  * @author Víctor Puertas <vpgugr@gmail.com>
  */
@@ -36,7 +37,7 @@ abstract class ModuleBase implements ModuleInterface
     protected $expressionResolver;
 
     /**
-     * Constructor.
+     * Constructor with NullIO by default.
      */
     public function __construct()
     {
@@ -79,9 +80,12 @@ abstract class ModuleBase implements ModuleInterface
     /**
      * Runs a register method.
      *
-     * @return mixed
+     * @param Method $method The method that will be invoked.
+     * @param CollectionInterface $recipeVariables Set of variables availables.
+     *
+     * @return ExecutionResult The result of the execution.
      */
-    protected function runInternalMethod(Method $method, CollectionInterface $recipeVariables)
+    protected function runInternalMethod(Method $method, CollectionInterface $recipeVariables): ExecutionResult
     {
         $methodParameters = $method->getParameters();
         $methodHandler = $this->methods->get($method->getName());
@@ -90,7 +94,7 @@ abstract class ModuleBase implements ModuleInterface
     }
 
     /**
-     * Register a new method handler.
+     * Registers a new method handler.
      *
      * @param string $methodName Name of the method.
      * @param callable $handler Handler for the method.
@@ -103,12 +107,12 @@ abstract class ModuleBase implements ModuleInterface
     }
 
     /**
-     * Returns a new method with expressions in the parameter placeholders resolved.
+     * Returns a new method with all the parameter placeholders resolved.
      *
      * @param Method $method
      * @param CollectionInterface $recipeVariables
      *
-     * @return Method
+     * @return Method A new method instance with the expressions resolved.
      */
     protected function resolveMethodPlaceholders(Method $method, CollectionInterface $recipeVariables): Method
     {

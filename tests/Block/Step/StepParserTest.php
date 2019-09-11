@@ -20,6 +20,7 @@ use RecipeRunner\RecipeRunner\Block\Step\StepParser;
 use RecipeRunner\RecipeRunner\Definition\ActionDefinition;
 use RecipeRunner\RecipeRunner\Definition\StepDefinition;
 use RecipeRunner\RecipeRunner\IO\NullIO;
+use RecipeRunner\RecipeRunner\Module\Invocation\ExecutionResult;
 use RecipeRunner\RecipeRunner\Module\Invocation\Method;
 use RecipeRunner\RecipeRunner\Module\ModuleMethodExecutor;
 use RecipeRunner\RecipeRunner\RecipeVariablesContainer;
@@ -207,7 +208,7 @@ class StepParserTest extends TestCase
         $module->addMethod('hi_you', function (Method $method) {
             $name = $method->getParameterNameOrPosition('name', 0);
             
-            return \json_encode(['message' => "Hi {$name}"]);
+            return new ExecutionResult(\json_encode(['message' => "Hi {$name}"]), true);
         });
 
         return $module;
