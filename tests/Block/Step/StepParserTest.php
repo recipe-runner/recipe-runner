@@ -220,6 +220,6 @@ class StepParserTest extends TestCase
             return $item->getBlockId() == $id;
         });
 
-        return $result->firstOrDefault();
+        return $result->first();
     }
 }

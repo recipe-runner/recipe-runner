@@ -159,10 +159,10 @@ class YamlRecipeMaker
             throw new InvalidArgumentException('Invalid schema: an action needs one and just one invocation method.');
         }
 
-        $methodName = $methodCollection->keys()->firstOrDefault();
+        $methodName = $methodCollection->keys()->first();
         $method = new Method($methodName);
         
-        foreach ((array) $methodCollection->firstOrDefault() as $key => $value) {
+        foreach ((array) $methodCollection->first() as $key => $value) {
             $method->addParameter($key, $value);
         }
 

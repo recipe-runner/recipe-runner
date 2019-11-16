@@ -44,10 +44,10 @@ yaml;
         $stepDefinitions = $recipeDefinition->getStepDefinitions();
 
         $this->assertCount(1, $stepDefinitions);
-        $this->assertEquals('step 1', $stepDefinitions->firstOrDefault()->getName());
-        $this->assertEquals('1==0', $stepDefinitions->firstOrDefault()->getWhenExpression());
+        $this->assertEquals('step 1', $stepDefinitions->first()->getName());
+        $this->assertEquals('1==0', $stepDefinitions->first()->getWhenExpression());
 
-        $actionDefinitions = $stepDefinitions->firstOrDefault()->getActionDefinitions();
+        $actionDefinitions = $stepDefinitions->first()->getActionDefinitions();
 
         $this->assertCount(1, $actionDefinitions);
         $this->assertEquals('Directory {{ current_dir }}', $actionDefinitions[0]->getName());
