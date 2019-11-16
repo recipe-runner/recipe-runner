@@ -8,7 +8,7 @@ Recipe Runner is a new way to automate tasks and extend your applications.
 
 ## Requires
 
-* PHP +7.2
+* PHP +7.3
 
 ## Installation
 

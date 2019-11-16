@@ -15,7 +15,7 @@
         }
     ],
     "require": {
-        "php": "^7.2",
+        "php": "^7.3",
         "yosymfony/collection": "^2.0",
         "symfony/expression-language": "^4.2",
         "symfony/yaml": "^4.2"
